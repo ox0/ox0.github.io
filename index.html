@@ -7,6 +7,11 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">Sample of search string and do something or do something while NOT found:</div>
+    <div class="console-line ">if [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];then echo 'Found';else echo 'Nope';fi</div>
+    <div class="console-line ">while [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];do SOMETHING;done</div>
+    </br>
+
     <div class="console-line comment">Check if 3389 port is open at Windows:</div>
     <div class="console-line ">netstat -an | find "3389"</div>
     <div class="console-line ">netstat -an | findstr "3389"</div>

@@ -7,8 +7,17 @@
 <body>
   <div class="console">
 
-    <div class="console-line comment">NOTE_HERE:</div>
-    <div class="console-line ">COMMAND_LINE_HERE</div>
+    <div class="console-line comment">###</div>
+    <div class="console-line ">$$$</div>
+    </br>
+
+    <div class="console-line comment">Query openweathermap.org with API key (PVG and YVR):</div>
+    <div class="console-line ">curl -s "https://api.openweathermap.org/data/2.5/onecall?lat=31.22&lon=121.46&exclude=minutely,hourly,daily&units=metric&appid=MY_OPEN_WEATHER_MAP_API_KEY"|jq</div>
+    <div class="console-line ">LOC="lat=49.25&lon=-123.12"; curl -s "https://api.openweathermap.org/data/2.5/onecall?$LOC&exclude=minutely,hourly,daily&units=metric&appid=$APPID"|jq</div>
+    </br>
+
+    <div class="console-line comment">Create index.html file at current directory for HTTP access:</div>
+    <div class="console-line ">tree -L 1 -I '*.html|*.php|*.ico|zz*' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/">|/" target=_blank>|g' > index.html</div>
     </br>
 
     <div class="console-line comment">Sync current directory to S3:</div>

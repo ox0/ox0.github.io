@@ -7,6 +7,20 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">Sort the current directory disk usage with depth 1 level down:</div>
+    <div class="console-line ">du . -h --max-depth=1 | sort -h</div>
+    <div class="console-line comment">Sort the current directory disk usage with depth 1 level down, VERY complicated version:</div>
+    <div class="console-line ">du . --max-depth=1 -x -k | sort -n | awk 'function human(x) { s="KMGTEPYZ"; while (x>=1000 && length(s)>1) {x/=1024; s=substr(s,2)} return int(x+0.5) substr(s,1,1)"iB" } {gsub(/^[0-9]+/, human($1)); print}'</div>
+    </br>
+
+    <div class="console-line comment">Sleep randomly between 0 to 3 seconds:</div>
+    <div class="console-line ">time sleep $(($RANDOM % 3))</div>
+    </br>
+
+    <div class="console-line comment">Draw a SOLID line across the entire width of the terminal:</div>
+    <div class="console-line ">for ((i=0; i<$(tput cols); i++)); do echo -e "_\c" ;done</div>
+    </br>
+
     <div class="console-line comment">Sample of search string and do something or NOT do something, if or while sample:</div>
     <div class="console-line ">if [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];then echo 'Found';else echo 'Nope';fi</div>
     <div class="console-line ">while [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];do SOMETHING;done</div>

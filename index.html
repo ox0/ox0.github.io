@@ -7,6 +7,10 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">Count how many hits from outside to Nginx server:</div>
+    <div class="console-line ">grep -v '192.168.0.' /var/log/nginx/access.log|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -rn</div>
+    </br>
+
     <div class="console-line comment">Display ALL possible color (256) for current console:</div>
     <div class="console-line ">for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo</div>
     </br>

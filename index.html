@@ -7,6 +7,14 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">Display ALL possible color (256) for current console:</div>
+    <div class="console-line ">for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo</div>
+    </br>
+
+    <div class="console-line comment">Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more):</div>
+    <div class="console-line ">tree -H '.' -L 1 > index.html && php -S 192.168.56.11:8000 && rm -fv index.html</div>
+    </br>
+
     <div class="console-line comment">Allow ONLY subnet 192.168.0.0/24 access port 22 (ssh), and drop ALL others:</div>
     <div class="console-line ">iptables -I INPUT -p tcp ! -s 192.168.0.0/24 --dport 22 -j DROP</div>
     </br>

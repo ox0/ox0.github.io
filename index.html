@@ -7,6 +7,10 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">Allow ONLY subnet 192.168.0.0/24 access port 22 (ssh), and drop ALL others:</div>
+    <div class="console-line ">iptables -I INPUT -p tcp ! -s 192.168.0.0/24 --dport 22 -j DROP</div>
+    </br>
+
     <div class="console-line comment">Sort the current directory disk usage with depth 1 level down:</div>
     <div class="console-line ">du . -h --max-depth=1 | sort -h</div>
     <div class="console-line comment">Sort the current directory disk usage with depth 1 level down, VERY complicated version:</div>

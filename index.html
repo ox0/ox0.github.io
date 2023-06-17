@@ -11,6 +11,10 @@
     <div class="console-line ">$$$</div>
     </br>
 
+    <div class="console-line comment">Search JSON file with specific name(s) and value(s), sample:</div>
+    <div class="console-line ">COUNTRY=$1;CITY=$2; jq -r ".[] | select(.country == \"$COUNTRY\" and .name == \"$CITY\")".coord city.list.json</div>
+    </br>
+
     <div class="console-line comment">Convert date to Unix time, and convert it back</div>
     <div class="console-line ">date +"%s"</div>
     <div class="console-line ">date -d @1687031979</div>

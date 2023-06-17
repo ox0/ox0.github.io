@@ -7,6 +7,14 @@
 <body>
   <div class="console">
 
+    <div class="console-line comment">NOTE_HERE:</div>
+    <div class="console-line ">COMMAND_LINE_HERE</div>
+    </br>
+
+    <div class="console-line comment">Usage of cat here file, it will add ANYTHING afterwords into FILE_NAME till a line with EOF only:</div>
+    <div class="console-line ">cat > FILE_NAME << EOF</div>
+    </br>
+
     <div class="console-line comment">Count how many hits from outside to Nginx server:</div>
     <div class="console-line ">grep -v '192.168.0.' /var/log/nginx/access.log|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -rn</div>
     </br>

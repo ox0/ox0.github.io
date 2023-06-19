@@ -11,6 +11,38 @@
     <div class="console-line ">$$$</div>
     </br>
 
+    <div class="console-line comment">List AWS specific region all running instance public IPs:</div>
+    <div class="console-line ">aws --profile $MY_PROFILE --region us-west-2 --output json ec2 describe-addresses | jq -r '.Addresses[].PublicIp'</div>
+    </br>
+
+    <div class="console-line comment">rsync from remote to local with non-standard ssh port:</div>
+    <div class="console-line ">rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path</div>
+    </br>
+
+    <div class="console-line comment">rsync from remote to local:</div>
+    <div class="console-line ">rsync -chavzP --stats user@remote.host:/path/to/copy /path/to/local/storage</div>
+    </br>
+
+    <div class="console-line comment">Generate one random IPv4 address:</div>
+    <div class="console-line ">for i in a b c d; do echo -n $(($RANDOM % 256)).; done | sed -e "s/\.$//g"; echo</div>
+    </br>
+
+    <div class="console-line comment">Kill all Zombie processes one-liner:</div>
+    <div class="console-line ">ps axo state,ppid | awk '!/PPID/$1~"Z"{print $2}' | xargs -r kill -9</div>
+    </br>
+
+    <div class="console-line comment">Display SSL expiration date for a domain:</div>
+    <div class="console-line ">DNS=google.com;echo | openssl s_client -servername $DNS -connect $DNS:443 2>/dev/null | openssl x509 -noout -enddate</div>
+    </br>
+
+    <div class="console-line comment">Write data to SDCard, useage of dd:</div>
+    <div class="console-line ">dd if=<image> of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress</div>
+    </br>
+
+    <div class="console-line comment">Remove files that were modified 30 days ago at the current directory:</div>
+    <div class="console-line ">find . -mtime +30 -type f -exec rm -rf {} \;</div>
+    </br>
+
     <div class="console-line comment">Search JSON file with specific name(s) and value(s), sample:</div>
     <div class="console-line ">COUNTRY=$1;CITY=$2; jq -r ".[] | select(.country == \"$COUNTRY\" and .name == \"$CITY\")".coord city.list.json</div>
     </br>

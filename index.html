@@ -11,6 +11,14 @@
     <div class="console-line ">$$$</div>
     </br>
 
+    <div class="console-line comment">Restore MySQL DB, oneliner:</div>
+    <div class="console-line ">DB="my-db-name"; mysql -u root -p $DB < ${DB}_yyyy-mm-dd_hh-mm.sql</div>
+    </br>
+
+    <div class="console-line comment">Backup MySQL DB, oneliner:</div>
+    <div class="console-line ">DB="my-db-name"; mysqldump -u root -p $DB > ${DB}_$(date +%Y-%m-%d_%H-%M).sql</div>
+    </br>
+
     <div class="console-line comment">List AWS specific region all running instance public IPs:</div>
     <div class="console-line ">aws --profile $MY_PROFILE --region us-west-2 --output json ec2 describe-addresses | jq -r '.Addresses[].PublicIp'</div>
     </br>

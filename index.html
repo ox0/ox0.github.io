@@ -9,6 +9,19 @@
 
     <div class="console-line comment">###</div>
     <div class="console-line ">$$$</div>
+    <div class="console-line output"></div>
+    </br>
+
+    <div class="console-line comment">My BASH template for any script with argument(s):</div>
+    <div class="console-line output">#!/bin/bash</div>
+    <div class="console-line output">if [[ $# -ne 2 ]]</div>
+    <div class="console-line output">  then</div>
+    <div class="console-line output">    echo -e "$0\n\tAAA_NAME ( sampleA )\n\tBBB_NAME ( sampleB )"</div>
+    <div class="console-line output">cat << EOF_USAGE</div>
+    <div class="console-line output">This script is to do WHATEVER ...</div>
+    <div class="console-line output">EOF_USAGE</div>
+    <div class="console-line output">    exit 1</div>
+    <div class="console-line output">fi</div>
     </br>
 
     <div class="console-line comment">Restore MySQL DB, oneliner:</div>

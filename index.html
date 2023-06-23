@@ -12,6 +12,10 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">How do I know where are SSL certificates located? for Apach2 as an example:</div>
+    <div class="console-line ">grep -Rn SSL /etc/apache2/*|grep -v \#|grep "/ssl/"</div>
+    </br>
+
     <div class="console-line comment">My BASH template for any script with argument(s):</div>
     <div class="console-line output">#!/bin/bash</div>
     <div class="console-line output">if [[ $# -ne 2 ]]</div>

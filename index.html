@@ -12,6 +12,11 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">Start a container with port mapping (HOST at 88, CONTAINER at 80:</div>
+    <div class="console-line ">docker run -d -p 88:80 nginxdemos/hello</div>
+    <div class="console-line ">curl localhost:88</div>
+    </br>
+
     <div class="console-line comment">How do I know where are SSL certificates located? for Apach2 as an example:</div>
     <div class="console-line ">grep -Rn SSL /etc/apache2/*|grep -v \#|grep "/ssl/"</div>
     </br>

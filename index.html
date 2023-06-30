@@ -12,6 +12,14 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">Docker pull, tag and push image to AWS ECR</div>
+    <div class="console-line ">docker pull arturn311/node_js_app</div>
+    <div class="console-line ">docker tag arturn311/node_js_app 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest</div>
+    <div class="console-line ">aws ecr get-login-password --region us-west-2 --profile XXXXXX | docker login --username AWS --password-stdin 123412341234.dkr.ecr.us-west-2.amazonaws.com</div>
+    <div class="console-line output">Login Succeeded</div>
+    <div class="console-line ">docker push 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest</div>
+    </br>
+
     <div class="console-line comment">Start a container with port mapping (HOST at 88, CONTAINER at 80:</div>
     <div class="console-line ">docker run -d -p 88:80 nginxdemos/hello</div>
     <div class="console-line ">curl localhost:88</div>

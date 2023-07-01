@@ -12,6 +12,10 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">Write image to USD drive, sample of using dd:</div>
+    <div class="console-line ">dd if=<image> of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress</div>
+    </br>
+
     <div class="console-line comment">Docker pull, tag and push image to AWS ECR</div>
     <div class="console-line ">docker pull arturn311/node_js_app</div>
     <div class="console-line ">docker tag arturn311/node_js_app 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest</div>

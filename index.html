@@ -12,6 +12,14 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</div>
+    <div class="console-line ">touch /etc/cloud/cloud-init.disabled</div>
+    <div class="console-line ">dpkg-reconfigure cloud-init   # uncheck everything except "None"</div>
+    <div class="console-line ">apt-get purge cloud-init</div>
+    <div class="console-line ">rm -rf /etc/cloud/ && sudo rm -rf /var/lib/cloud/</div>
+    <div class="console-line ">reboot</div>
+    </br>
+
     <div class="console-line comment">Install WindowsTerminal:</div>
     <div class="console-line ">winget install --id=Microsoft.WindowsTerminal -e</div>
     </br>

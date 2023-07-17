@@ -12,6 +12,10 @@
     <div class="console-line output"></div>
     </br>
 
+    <div class="console-line comment">Count the disk usage and sort at the current directory</div>
+    <div class="console-line ">du -h|grep [[:digit:]]G|sort -k1 -n</div>
+    </br>
+
     <div class="console-line comment">Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</div>
     <div class="console-line ">touch /etc/cloud/cloud-init.disabled</div>
     <div class="console-line ">dpkg-reconfigure cloud-init   # uncheck everything except "None"</div>

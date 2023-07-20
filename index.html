@@ -45,16 +45,18 @@ I want you to act as a linux terminal. I will type commands and you will reply w
     <div class="console-line output"> Timing buffered disk reads: 136 MB in  3.25 seconds =  41.79 MB/sec</div>
     </br>
 
-    <div class="console-line comment">My .bashrc favorite</div>
-    <div class="console-line output"># 99+</div>
-    <div class="console-line output"># export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "</div>
-    <div class="console-line output"># W - for current working directory</div>
-    <div class="console-line output">export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "</div>
-    <div class="console-line output"># w - for current working directory, absolute FULL path from / (root)</div>
-    <div class="console-line output">alias ll='ls -al ' gg='grep --color ' hh='history 33' nn='nano -w '</div>
-    <div class="console-line output"># 99.</div>
+    <div class="console-line comment">My .bashrc favorite</div></div>
+    <div class="resizable-text-block">
+# 99+
+# export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\W\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ 
+# W - for current working directory
+export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ 
+# w - for current working directory, absolute FULL path from / (root)
+alias ll='ls -al ' gg='grep --color ' hh='history 33' nn='nano -w '
+# 99.
+    </div>
     </br>
-
+  <div class="console">
     <div class="console-line comment">Rename all files in current directory:</div>
     <div class="console-line ">N=10;for i in $(ls);do N=$(( N += 1 ));echo $i $N;done</div>
     <div class="console-line ">N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done</div>

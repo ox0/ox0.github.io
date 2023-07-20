@@ -56,14 +56,23 @@ body {
     color: #ff0;
   }
 
-
   .resizable-text-block {
     border: 1px solid #ccc; /* Add a border for better visualization */
     width: 70%; /* Set an initial width for the block */
-    min-height: 100px; /* Set a minimum height for the block */
+    min-height: 80px; /* Set a minimum height for the block */
     padding: 10px; /* Add padding for better appearance */
     resize: both; /* Allows resizing in both horizontal and vertical directions */
     overflow: auto; /* Add scrollbars if the text overflows the container */
     word-wrap: break-word; /* Wraps long words if needed */
     overflow-wrap: break-word; /* Wraps text within the container */
+  }
+
+  .code-text-block {
+    border: 1px solid #ccc; /* Add a border for better visualization */
+    width: 70%; /* Set an initial width for the block */
+    min-height: 80px; /* Set a minimum height for the block */
+    padding: 10px; /* Add padding for better appearance */
+    resize: both; /* Allows resizing in both horizontal and vertical directions */
+    overflow: auto; /* Add scrollbars if the text overflows the container */
+    white-space: nowrap; /* Prevent text from wrapping */
   }

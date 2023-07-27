@@ -10,6 +10,11 @@
     <div class="console-line ">$$$</div>
     <div class="console-line output"></div>
     </br>
+
+    <div class="console-line comment">Add user, one line command:</div>
+    <div class="console-line ">USER=USER_ID;   useradd --create-home $USER;cd /home;rsync -razxcv /etc/skel/ $USER/;chown -R $USER:users $USER/ && passwd $USER</div>
+    </br>
+
     <div class="console-line comment">ChatGPT Prompts: Act as a Terrafrom coder</div></div>
     <div class="resizable-text-block">
 I want you to act as a Terraform coding person. I will type resource I need, and you will reply with what the code should look like.  I want you to only reply with the terminal output inside one unique code block, and nothing else. do not write explanations.  do not type commands unless I instruct you to do so. When I need to tell you something in English, I will do so by putting text inside curly brackets {like this}. My first resource is EC2 instance

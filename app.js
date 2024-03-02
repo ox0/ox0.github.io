@@ -16,18 +16,24 @@ function login() {
 }
 
 function signUp() {
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-    
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+  
     if(username && password) {
-        let users = JSON.parse(localStorage.getItem('users')) || {};
-        if(username in users) {
-            alert("Username already taken.");
-        } else {
-            users[username] = {password: password};
-            localStorage.setItem('users', JSON.stringify(users));
-            alert("Registration successful.");
+        var users = JSON.parse(localStorage.getItem('users')) || {};
+        
+        // Check if username already exists
+        if(users[username]) {
+            alert("Username already exists!");
+            return;
         }
+        
+        // Store user credentials
+        users[username] = {password: password};
+        localStorage.setItem('users', JSON.stringify(users));
+        alert("Registration Successful");
+    } else {
+        alert("Fill out both fields");
     }
 }
 

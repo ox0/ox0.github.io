@@ -1,11 +1,33 @@
 function login() {
     let username = document.getElementById("username").value;
-    if(username) {
+    let password = document.getElementById("password").value;
+    
+    let users = JSON.parse(localStorage.getItem('users')) || {};
+    
+    if(username in users && users[username].password === password) {
         localStorage.setItem('loggedInUser', username);
         document.getElementById("loginForm").style.display = "none";
         document.getElementById("userDashboard").style.display = "block";
         document.getElementById("welcomeMessage").innerText = `Welcome ${username}`;
         getUrls();
+    } else {
+        alert("Invalid username or password.")
+    }
+}
+
+function signUp() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    
+    if(username && password) {
+        let users = JSON.parse(localStorage.getItem('users')) || {};
+        if(username in users) {
+            alert("Username already taken.");
+        } else {
+            users[username] = {password: password};
+            localStorage.setItem('users', JSON.stringify(users));
+            alert("Registration successful.");
+        }
     }
 }
 

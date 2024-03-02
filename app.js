@@ -74,6 +74,19 @@ function getUrls() {
     for(let i=0; i < userUrls.length; i++) {
         urlList.innerHTML += `<li>
                                 <a href="${userUrls[i].url}" target="_blank">${userUrls[i].tag}</a>
+                                <button onclick="deleteUrl(${i})">Delete</button>
                              </li>`;
     }
+}
+
+function deleteUrl(index) {
+    let loggedInUser = localStorage.getItem('loggedInUser');  
+    let urls = JSON.parse(localStorage.getItem('urls')) || {};
+    let userUrls = urls[loggedInUser] || [];
+    
+    userUrls.splice(index, 1);
+    urls[loggedInUser] = userUrls;
+    
+    localStorage.setItem('urls', JSON.stringify(urls));
+    getUrls();
 }

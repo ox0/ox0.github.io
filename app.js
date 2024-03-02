@@ -18,8 +18,16 @@ function login() {
 function signUp() {
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
-  
+    
+    // Regular expression for basic email validation
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if(username && password) {
+        if(!regex.test(username)) {
+            alert("Please provide a valid email address as username");
+            return;
+        }
+        
         var users = JSON.parse(localStorage.getItem('users')) || {};
         
         // Check if username already exists
@@ -31,7 +39,7 @@ function signUp() {
         // Store user credentials
         users[username] = {password: password};
         localStorage.setItem('users', JSON.stringify(users));
-        alert("Registration Successful");
+        alert("Registration successful");
     } else {
         alert("Fill out both fields");
     }

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Saver</title>
+</head>
+<body>
+
+<h2>URL Saver</h2>
+    
+<div id="loginForm">
+    <input type="text" id="username" placeholder="Enter username" />
+    <button onclick="login()">Login</button>
+</div>
+
+<div id="userDashboard" style="display: none;">
+    <h2 id="welcomeMessage"></h2>
+    <input type="text" id="urlInput" placeholder="Enter URL" />
+    <input type="text" id="urlTag" placeholder="Enter Tag/Name" />
+    <button onclick="saveUrl()">Save URL</button>
+    <h3>Your Saved URLs</h3>
+    <ul id="urlList"></ul>
+    <button onclick="logout()">Logout</button>       
+</div>
+   
+<script src="app.js"></script>
+
+</body>
+</html>

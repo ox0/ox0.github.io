@@ -67,14 +67,14 @@ function getUrls() {
     let loggedInUser = localStorage.getItem('loggedInUser');  
     let urls = JSON.parse(localStorage.getItem('urls')) || {};
     let userUrls = urls[loggedInUser] || [];
-    
+
     let urlList = document.getElementById("urlList");
     urlList.innerHTML = "";
     
     for(let i=0; i < userUrls.length; i++) {
         urlList.innerHTML += `<li>
-                                <a href="${userUrls[i].url}" target="_blank">${userUrls[i].tag}</a>
-                                <button onclick="deleteUrl(${i})">Delete</button>
+                               <button onclick="deleteUrl(${i})">Delete</button>
+                               <a href="${userUrls[i].url}" target="_blank">${userUrls[i].tag}</a>
                              </li>`;
     }
 }

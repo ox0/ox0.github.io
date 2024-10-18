@@ -80,8 +80,8 @@ cat <<EOF > $output_file
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Recorded Progress</h1>
     <div class="container">
-        <h1>Recorded Progress</h1>
         <table>
             <thead>
                 <tr>

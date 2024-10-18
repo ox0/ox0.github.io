@@ -10,9 +10,6 @@ if [ ! -f "$css_file" ]; then
   cat <<EOF > $css_file
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     margin: 0;
 }
@@ -35,12 +32,16 @@ table, th, td {
 
 th, td {
     padding: 12px;
-    text-align: center;
 }
 
 th {
     background-color: #4CAF50;
     color: white;
+    text-align: center;
+}
+
+td {
+    text-align: left;
 }
 
 tr:nth-child(even) {
@@ -50,8 +51,23 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
     background-color: #e6f7ff;
 }
+
+@media (orientation: landscape) {
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        text-align: center;
+    }
+}
 EOF
 fi
+
+# Read data into an array
+mapfile -t lines < "$data_file"
 
 # Create HTML file
 cat <<EOF > $output_file
@@ -72,16 +88,19 @@ cat <<EOF > $output_file
                     <th>Date</th>
                     <th>Weekday</th>
                     <th>Recorded Progress</th>
+                    <th>Order</th>
                 </tr>
             </thead>
             <tbody>
 EOF
 
-# Parse data and append rows to the table
-while IFS=',' read -r date weekday progress
-do
-    echo "                <tr><td>$date</td><td>$weekday</td><td>$progress</td></tr>" >> $output_file
-done < "$data_file"
+# Reverse loop over data and add "Order" column starting from 0001
+order_num=$(printf "%04d" ${#lines[@]})
+for ((i=${#lines[@]}-1; i>=0; i--)); do
+    IFS=',' read -r date weekday progress <<< "${lines[i]}"
+    echo "                <tr><td>$date</td><td>$weekday</td><td>$progress</td><td>$order_num</td></tr>" >> $output_file
+    order_num=$(printf "%04d" $((10#$order_num - 1)))
+done
 
 # Close the HTML structure
 cat <<EOF >> $output_file

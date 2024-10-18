@@ -1,1 +1,9 @@
-2024-10-07,Monday,I can write whole sentences in French
+2024-10-18,Friday,xxx
+2024-10-17,Thursday,I learned what to do if earthquake happens.  Adrian got microscope set.
+2024-10-16,Wednesday,Adrian started typing practice/
+2024-10-15,Tuesday,I learned the difference between "a" and "e".
+2024-10-11,Friday,I learned what to do if there is a fire.
+2024-10-10,Thursday,I took the second position in Lego playing.
+2024-10-09,Wednesday,I learned how to solve small to big fights.
+2024-10-08,Tuesday,I learned music notes.
+2024-10-07,Monday,I can write whole sentences in French.

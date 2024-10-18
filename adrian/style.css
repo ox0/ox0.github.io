@@ -1,8 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     margin: 0;
 }
@@ -25,12 +22,16 @@ table, th, td {
 
 th, td {
     padding: 12px;
-    text-align: center;
 }
 
 th {
     background-color: #4CAF50;
     color: white;
+    text-align: center;
+}
+
+td {
+    text-align: left;
 }
 
 tr:nth-child(even) {
@@ -39,4 +40,16 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
     background-color: #e6f7ff;
+}
+
+@media (orientation: landscape) {
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    h1 {
+        text-align: center;
+    }
 }

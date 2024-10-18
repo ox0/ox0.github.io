@@ -15,15 +15,15 @@ body {
 }
 
 .container {
-    width: 80%;
-    max-width: 800px;
+    width: 95%;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 table, th, td {

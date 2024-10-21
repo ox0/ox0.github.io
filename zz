@@ -1,0 +1,7 @@
+# adrian site update
+cd adrian
+nn record.txt
+bash generate_html.sh
+
+git add . && git commit -a -m 'update'
+git push

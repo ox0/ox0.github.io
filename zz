@@ -1,4 +1,4 @@
-# adrian site update
+# adrian site update:
 cd adrian
 nn record.txt
 bash generate_html.sh

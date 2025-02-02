@@ -1,3 +1,3 @@
 # MyNotes
 
-My persional notebook. see [https://sigoden.github.io/mynotes/](https://sigoden.github.io/mynotes/)
+My persional notebook. see [https://ox0.github.io/mynotes/](https://ox0.github.io/mynotes/)

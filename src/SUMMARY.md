@@ -1,5 +1,10 @@
 [Summary](./README.md)
 
+- [CLI Samples](cli_samples/README.md)
+  - [Linux](cli_samples/linux.md)
+  - [Bash](cli_samples/bash.md)
+  - [Apache](cli_samples/apache.md)
+
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)
   - [SASS Tools](collections/sass.md)

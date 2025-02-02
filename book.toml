@@ -3,7 +3,7 @@ authors = ["ox0"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Alex's Notebook"
+title = "AP's Notebook"
 
 [output.html]
 git-repository-url = "https://github.com/ox0/ox0.github.io"

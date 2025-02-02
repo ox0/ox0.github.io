@@ -1,0 +1,7 @@
+# key point to deployment
+Make sure set these at: https://github.com/ox0/ox0.github.io/settings/pages
+Build and deployment / Source - Deploy from a branch
+Build and deployment / Branch - gh-pages
+Save
+
+

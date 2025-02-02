@@ -4,6 +4,6 @@ My personal notes, which is copied from [sigoden](https://github.com/sigoden/myn
 
 The notes divided into following blocks:
 
-- Collections: my favorite command-line tools and utility websites.
-- Languages: my learning notes on some programming languages.
-- Tools: my experience with famous tools.
+- Collections: **sigoden**'s command-line tools and utility websites.
+- Languages: **sigoden**'s notes on some programming languages, added my ones.
+- Tools: **sigoden**'s experience with famous tools, added my ones.

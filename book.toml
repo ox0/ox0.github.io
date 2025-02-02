@@ -1,9 +1,9 @@
 [book]
-authors = ["sigoden"]
+authors = ["ox0"]
 language = "en"
 multilingual = false
 src = "src"
-title = "Sigoden's Notebook"
+title = "Alex's Notebook"
 
 [output.html]
-git-repository-url = "https://github.com/sigoden/mynotes"
+git-repository-url = "https://github.com/ox0/ox0.github.io"

@@ -1,3 +1,12 @@
+Set ssh key for git remote set as ssh way
+```bash
+eval "$(ssh-agent -s)"
+ssh-add PRIVATE_KEY_FOR_GITHUB
+# test it
+ssh -T git@github.com
+Hi $THE_USER_NAME! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
 Sort the current directory disk usage with depth 1 level down
 ```bash
 du . -h --max-depth=1 | sort -h

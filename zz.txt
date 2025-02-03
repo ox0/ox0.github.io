@@ -12,3 +12,4 @@ nn src/SUMMARY.md
   - [XXX](cli_samples/xxx.md)
 
 git add -A && git commit -a -m 'update'
+git push

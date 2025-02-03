@@ -11,3 +11,8 @@ chown -R $USER:users $USER/ && passwd $USER
 du -h|grep [[:digit:]]G|sort -k1 -n
 ```
 
+**Check hard disk performance**
+```bash
+hdparm -Tt /dev/sda
+```
+

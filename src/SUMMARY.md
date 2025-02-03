@@ -12,6 +12,7 @@
   - [Apache](cli_samples/apache.md)
   - [Nginx](cli_samples/nginx.md)
   - [PHP](cli_samples/php.md)
+  - [Git](cli_samples/git.md)
   - [Utility](cli_samples/utility.md)
 
 - [Collections](collections/README.md)

@@ -1,3 +1,18 @@
+Change USER_ID with PASSWORD, one line command
+```bash
+USER_ID=USERID; PASSWORD=PASSWD; echo "$USER_ID:$PASSWORD"|chpasswd
+```
+
+Generate 12 characters long random password
+```bash
+openssl rand -base64 12
+```
+
+Pick one FILE randomly from many files with path D0s/D1s/FILEs
+```bash
+D0=$(ls|shuf -n1);D1=$(ls $D0/|shuf -n1);FILE=$(ls $D0/$D1/*.jpg|shuf -n1);echo $FILE
+```
+
 Display ALL possible color (256) for current console
 ```bash
 for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo

@@ -1,3 +1,8 @@
+Set timezone quickly on Ubuntu
+```bash
+timedatectl set-timezone America/Vancouver
+```
+
 Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS
 ```bash
 touch /etc/cloud/cloud-init.disabled

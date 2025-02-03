@@ -1,3 +1,23 @@
+Make a ssh tunnel for postgres database access
+```bash
+ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX -L 5432:database-prod.XXXXXXXXX.us-west-2.rds.amazonaws.com:5432
+
+Connect to the database from localhost
+psql -h localhost -U username databasename
+```
+
+One line command to deploy changes to SLS(Serverless) stack
+```bash
+sls s3sync && sls invoke -f setup
+```
+
+Open port 80 for IP 11.12.13.14 with iptables
+```bash
+iptables -I INPUT -p tcp -s 11.12.13.14 --dport 80 -j ACCEPT
+Saved in iptable is
+-A INPUT -s 11.12.13.14/32 -p tcp -m tcp --dport 80 -j ACCEPT
+```
+
 Set ssh key for git remote set as ssh way
 ```bash
 eval "$(ssh-agent -s)"

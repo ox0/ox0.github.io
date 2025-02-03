@@ -2,6 +2,8 @@
 
 - [CLI Samples](cli_samples/README.md)
   - [Linux](cli_samples/linux.md)
+  - [Ubuntu](cli_samples/ubuntu.md)
+  - [Alpine](cli_samples/alpine.md)
   - [Bash](cli_samples/bash.md)
   - [Apache](cli_samples/apache.md)
 

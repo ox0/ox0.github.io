@@ -5,3 +5,9 @@ useradd --create-home $USER; \
 rsync -razxcv /etc/skel/ $USER/; \
 chown -R $USER:users $USER/ && passwd $USER
 ```
+
+**Count the disk usage and sort at the current directory**
+```bash
+du -h|grep [[:digit:]]G|sort -k1 -n
+```
+

@@ -1,7 +1,14 @@
-# key point to deployment
+# key point to deployment:
 Make sure set these at: https://github.com/ox0/ox0.github.io/settings/pages
 Build and deployment / Source - Deploy from a branch
 Build and deployment / Branch - gh-pages
 Save
 
+# add NEW item:
+touch src/cli_samples/xxx.md
+nn src/cli_samples/README.md
+- [XXX](xxx.md)
+nn src/SUMMARY.md
+  - [XXX](cli_samples/xxx.md)
 
+git add -A && git commit -a -m 'update'

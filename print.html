@@ -170,6 +170,8 @@
 <ul>
 <li><a href="cli_samples/linux.html">Linux</a></li>
 <li><a href="cli_samples/bash.html">Bash</a></li>
+<li><a href="cli_samples/ubuntu.html">Ubuntu</a></li>
+<li><a href="cli_samples/alpine.html">Alpine</a></li>
 <li><a href="cli_samples/apache.html">Apache</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><p><strong>Add user, one line command</strong></p>
@@ -178,7 +180,17 @@ useradd --create-home $USER; \
 rsync -razxcv /etc/skel/ $USER/; \
 chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
+<p><strong>Count the disk usage and sort at the current directory</strong></p>
+<pre><code class="language-bash">du -h|grep [[:digit:]]G|sort -k1 -n
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p><strong>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</strong></p>
+<pre><code class="language-bash">touch /etc/cloud/cloud-init.disabled
+dpkg-reconfigure cloud-init   # uncheck everything except "None"
+apt-get purge cloud-init
+rm -rf /etc/cloud/ &amp;&amp; sudo rm -rf /var/lib/cloud/
+reboot
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
 <p>A collections of tools, services, websites.</p>
 <ul>
 <li><a href="collections/cli.html">CLI Tools</a></li>

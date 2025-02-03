@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Linux - AP&#x27;s Notebook</title>
+        <title>Alpine - AP&#x27;s Notebook</title>
 
 
         <!-- Custom HTML head -->
@@ -155,25 +155,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><strong>Add user, one line command</strong></p>
-<pre><code class="language-bash">USER=USER_ID; \
-useradd --create-home $USER; \
-rsync -razxcv /etc/skel/ $USER/; \
-chown -R $USER:users $USER/ &amp;&amp; passwd $USER
-</code></pre>
-<p><strong>Count the disk usage and sort at the current directory</strong></p>
-<pre><code class="language-bash">du -h|grep [[:digit:]]G|sort -k1 -n
-</code></pre>
-
+                        
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../cli_samples/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli_samples/ubuntu.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../cli_samples/ubuntu.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../cli_samples/bash.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -183,11 +174,11 @@ chown -R $USER:users $USER/ &amp;&amp; passwd $USER
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../cli_samples/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli_samples/ubuntu.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../cli_samples/ubuntu.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../cli_samples/bash.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

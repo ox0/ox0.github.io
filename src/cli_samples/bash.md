@@ -1,3 +1,28 @@
+**Write data to SDCard, useage of dd**
+```bash
+dd if=<image> of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
+```
+
+**Display SSL expiration date for a domain**
+```bash
+DNS=google.com;echo | openssl s_client -servername $DNS -connect $DNS:443 2>/dev/null | openssl x509 -noout -enddate
+```
+
+**Kill all Zombie processes one-liner**
+```bash
+ps axo state,ppid | awk '!/PPID/$1~"Z"{print $2}' | xargs -r kill -9
+```
+
+**Generate one random IPv4 address**
+```bash
+for i in a b c d; do echo -n $(($RANDOM % 256)).; done | sed -e "s/\.$//g"; echo
+```
+
+**rsync from remote to local**
+```bash
+rsync -chavzP --stats user@remote.host:/path/to/copy /path/to/local/storage
+```
+
 **rsync from remote to local with non-standard ssh port**
 ```bash
 rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path

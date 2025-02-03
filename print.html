@@ -203,7 +203,22 @@ reboot
 <div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p><strong>Install WindowsTerminal</strong></p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p><strong>rsync from remote to local with non-standard ssh port</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><p><strong>Write data to SDCard, useage of dd</strong></p>
+<pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
+</code></pre>
+<p><strong>Display SSL expiration date for a domain</strong></p>
+<pre><code class="language-bash">DNS=google.com;echo | openssl s_client -servername $DNS -connect $DNS:443 2&gt;/dev/null | openssl x509 -noout -enddate
+</code></pre>
+<p><strong>Kill all Zombie processes one-liner</strong></p>
+<pre><code class="language-bash">ps axo state,ppid | awk '!/PPID/$1~"Z"{print $2}' | xargs -r kill -9
+</code></pre>
+<p><strong>Generate one random IPv4 address</strong></p>
+<pre><code class="language-bash">for i in a b c d; do echo -n $(($RANDOM % 256)).; done | sed -e "s/\.$//g"; echo
+</code></pre>
+<p><strong>rsync from remote to local</strong></p>
+<pre><code class="language-bash">rsync -chavzP --stats user@remote.host:/path/to/copy /path/to/local/storage
+</code></pre>
+<p><strong>rsync from remote to local with non-standard ssh port</strong></p>
 <pre><code class="language-bash">rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path
 </code></pre>
 <p><strong>My BASH template for any script with argument(s)</strong></p>

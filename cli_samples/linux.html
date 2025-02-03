@@ -155,7 +155,21 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Set ssh key for git remote set as ssh way</p>
+                        <p>Make a ssh tunnel for postgres database access</p>
+<pre><code class="language-bash">ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX -L 5432:database-prod.XXXXXXXXX.us-west-2.rds.amazonaws.com:5432
+
+Connect to the database from localhost
+psql -h localhost -U username databasename
+</code></pre>
+<p>One line command to deploy changes to SLS(Serverless) stack</p>
+<pre><code class="language-bash">sls s3sync &amp;&amp; sls invoke -f setup
+</code></pre>
+<p>Open port 80 for IP 11.12.13.14 with iptables</p>
+<pre><code class="language-bash">iptables -I INPUT -p tcp -s 11.12.13.14 --dport 80 -j ACCEPT
+Saved in iptable is
+-A INPUT -s 11.12.13.14/32 -p tcp -m tcp --dport 80 -j ACCEPT
+</code></pre>
+<p>Set ssh key for git remote set as ssh way</p>
 <pre><code class="language-bash">eval "$(ssh-agent -s)"
 ssh-add PRIVATE_KEY_FOR_GITHUB
 # test it

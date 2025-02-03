@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>PHP - AP&#x27;s Notebook</title>
+        <title>Git - AP&#x27;s Notebook</title>
 
 
         <!-- Custom HTML head -->
@@ -155,19 +155,29 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>
-<pre><code class="language-bash">tree -H '.' -L 1 &gt; index.html &amp;&amp; php -S 192.168.56.11:8000 &amp;&amp; rm -fv index.html
+                        <p>Initial a repository / update an existing repository:</p>
+<pre><code class="language-bash">git clone XXX.git / git pull
+</code></pre>
+<p>One line command to do commit and push together after any changes made at local repository</p>
+<pre><code class="language-bash">git add FILE_NAME/. &amp;&amp; git commit -a -m 'ANY_COMMENT' &amp;&amp; git push
+</code></pre>
+<p>Check remote rpository on this local one</p>
+<pre><code class="language-bash">git remote -v
+</code></pre>
+<p>Set git remote http or ssh way</p>
+<pre><code class="language-bash">git remote set-url origin https://ox0@github.com/ox0/ox0.github.io.git
+git remote set-url origin git@github.com:ox0/ox0.github.io.git
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../cli_samples/nginx.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli_samples/php.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../cli_samples/git.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../cli_samples/utility.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -177,11 +187,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../cli_samples/nginx.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli_samples/php.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../cli_samples/git.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../cli_samples/utility.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

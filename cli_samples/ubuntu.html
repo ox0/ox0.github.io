@@ -155,7 +155,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</p>
+                        <p>Set timezone quickly on Ubuntu</p>
+<pre><code class="language-bash">timedatectl set-timezone America/Vancouver
+</code></pre>
+<p>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</p>
 <pre><code class="language-bash">touch /etc/cloud/cloud-init.disabled
 dpkg-reconfigure cloud-init   # uncheck everything except "None"
 apt-get purge cloud-init

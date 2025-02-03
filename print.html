@@ -179,9 +179,24 @@
 <li><a href="cli_samples/apache.html">Apache</a></li>
 <li><a href="cli_samples/nginx.html">Nginx</a></li>
 <li><a href="cli_samples/php.html">PHP</a></li>
+<li><a href="cli_samples/git.html">Git</a></li>
 <li><a href="cli_samples/utility.html">Utility</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><p>Set ssh key for git remote set as ssh way</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Make a ssh tunnel for postgres database access</p>
+<pre><code class="language-bash">ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX -L 5432:database-prod.XXXXXXXXX.us-west-2.rds.amazonaws.com:5432
+
+Connect to the database from localhost
+psql -h localhost -U username databasename
+</code></pre>
+<p>One line command to deploy changes to SLS(Serverless) stack</p>
+<pre><code class="language-bash">sls s3sync &amp;&amp; sls invoke -f setup
+</code></pre>
+<p>Open port 80 for IP 11.12.13.14 with iptables</p>
+<pre><code class="language-bash">iptables -I INPUT -p tcp -s 11.12.13.14 --dport 80 -j ACCEPT
+Saved in iptable is
+-A INPUT -s 11.12.13.14/32 -p tcp -m tcp --dport 80 -j ACCEPT
+</code></pre>
+<p>Set ssh key for git remote set as ssh way</p>
 <pre><code class="language-bash">eval "$(ssh-agent -s)"
 ssh-add PRIVATE_KEY_FOR_GITHUB
 # test it
@@ -223,7 +238,10 @@ chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 <p>How do I know where are SSL certificates located? for Apach2 as an example</p>
 <pre><code class="language-bash">grep -Rn SSL /etc/apache2/|grep -v \#|grep "/ssl/"
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Set timezone quickly on Ubuntu</p>
+<pre><code class="language-bash">timedatectl set-timezone America/Vancouver
+</code></pre>
+<p>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</p>
 <pre><code class="language-bash">touch /etc/cloud/cloud-init.disabled
 dpkg-reconfigure cloud-init   # uncheck everything except "None"
 apt-get purge cloud-init
@@ -242,7 +260,16 @@ netstat -an | findstr "3389"
 <p>Install WindowsTerminal</p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>Display ALL possible color (256) for current console</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Change USER_ID with PASSWORD, one line command</p>
+<pre><code class="language-bash">USER_ID=USERID; PASSWORD=PASSWD; echo "$USER_ID:$PASSWORD"|chpasswd
+</code></pre>
+<p>Generate 12 characters long random password</p>
+<pre><code class="language-bash">openssl rand -base64 12
+</code></pre>
+<p>Pick one FILE randomly from many files with path D0s/D1s/FILEs</p>
+<pre><code class="language-bash">D0=$(ls|shuf -n1);D1=$(ls $D0/|shuf -n1);FILE=$(ls $D0/$D1/*.jpg|shuf -n1);echo $FILE
+</code></pre>
+<p>Display ALL possible color (256) for current console</p>
 <pre><code class="language-bash">for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo
 </code></pre>
 <p>Usage of cat here file, it will add ANYTHING afterwords into FILE_NAME till a line with EOF only</p>
@@ -315,7 +342,15 @@ N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
 <p>Write image to USB drive, sample of using dd</p>
 <pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>Sync current directory to S3</p>
+<div style="break-before: page; page-break-before: always;"></div><p>onnect to it with ssh right after pub key was sent</p>
+<pre><code class="language-bash">ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX
+
+Required to have ~/.ssh/config has entries like these:
+# SSH over AWS Systems Manager Session Manager
+  host i-* mi-*
+  ProxyCommand sh -c "aws ssm start-session --target %h --document-name AWS-StartSSHSession --profile=PROFILE --region=us-west-2 --parameters 'portNumber=%p'"
+</code></pre>
+<p>Sync current directory to S3</p>
 <pre><code class="language-bash">export AWS_PROFILE=ratox;aws s3 sync . s3://alex.eboy.work/ --delete
 </code></pre>
 <p>List AWS specific region all running instance public IPs</p>
@@ -346,6 +381,19 @@ curl localhost:88
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>
 <pre><code class="language-bash">tree -H '.' -L 1 &gt; index.html &amp;&amp; php -S 192.168.56.11:8000 &amp;&amp; rm -fv index.html
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>Initial a repository / update an existing repository:</p>
+<pre><code class="language-bash">git clone XXX.git / git pull
+</code></pre>
+<p>One line command to do commit and push together after any changes made at local repository</p>
+<pre><code class="language-bash">git add FILE_NAME/. &amp;&amp; git commit -a -m 'ANY_COMMENT' &amp;&amp; git push
+</code></pre>
+<p>Check remote rpository on this local one</p>
+<pre><code class="language-bash">git remote -v
+</code></pre>
+<p>Set git remote http or ssh way</p>
+<pre><code class="language-bash">git remote set-url origin https://ox0@github.com/ox0/ox0.github.io.git
+git remote set-url origin git@github.com:ox0/ox0.github.io.git
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p>Install direnv # convenient tools to set environment when you enter a directory</p>
 <pre><code class="language-bash">curl -sfL https://direnv.net/install.sh | bash

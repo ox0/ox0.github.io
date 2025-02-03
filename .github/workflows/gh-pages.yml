@@ -23,7 +23,7 @@ jobs:
       - run: mdbook build
 
       - name: Replace default favicon
-        run: cp src/theme/favicon.svg book/favicon.svg
+        run: cp src/theme/favicon.ico book/favicon.ico
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

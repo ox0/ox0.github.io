@@ -155,7 +155,16 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Install WindowsTerminal</p>
+                        <p>Set timezone quickly on Windows</p>
+<pre><code class="language-bash">Check timezone list here: https://ss64.com/nt/timezones.html
+
+tzutil /s "Pacific Standard Time
+</code></pre>
+<p>Check if 3389 port is open at Windows</p>
+<pre><code class="language-bash">netstat -an | find "3389"
+netstat -an | findstr "3389"
+</code></pre>
+<p>Install WindowsTerminal</p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
 

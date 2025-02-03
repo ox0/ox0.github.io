@@ -181,7 +181,14 @@
 <li><a href="cli_samples/php.html">PHP</a></li>
 <li><a href="cli_samples/utility.html">Utility</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><p>Sort the current directory disk usage with depth 1 level down</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Set ssh key for git remote set as ssh way</p>
+<pre><code class="language-bash">eval "$(ssh-agent -s)"
+ssh-add PRIVATE_KEY_FOR_GITHUB
+# test it
+ssh -T git@github.com
+Hi $THE_USER_NAME! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+<p>Sort the current directory disk usage with depth 1 level down</p>
 <pre><code class="language-bash">du . -h --max-depth=1 | sort -h
 </code></pre>
 <p>Sort the current directory disk usage with depth 1 level down, VERY complicated version</p>
@@ -223,7 +230,16 @@ apt-get purge cloud-init
 rm -rf /etc/cloud/ &amp;&amp; sudo rm -rf /var/lib/cloud/
 reboot
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Install WindowsTerminal</p>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Set timezone quickly on Windows</p>
+<pre><code class="language-bash">Check timezone list here: https://ss64.com/nt/timezones.html
+
+tzutil /s "Pacific Standard Time
+</code></pre>
+<p>Check if 3389 port is open at Windows</p>
+<pre><code class="language-bash">netstat -an | find "3389"
+netstat -an | findstr "3389"
+</code></pre>
+<p>Install WindowsTerminal</p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p>Display ALL possible color (256) for current console</p>

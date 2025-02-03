@@ -177,6 +177,8 @@
 <li><a href="cli_samples/docker.html">Docker</a></li>
 <li><a href="cli_samples/mysql.html">MySQL</a></li>
 <li><a href="cli_samples/apache.html">Apache</a></li>
+<li><a href="cli_samples/nginx.html">Nginx</a></li>
+<li><a href="cli_samples/php.html">PHP</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><p>Add user, one line command</p>
 <pre><code class="language-bash">USER=USER_ID; \
@@ -203,7 +205,15 @@ reboot
 <div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Install WindowsTerminal</p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>Create index.html file at current directory for HTTP access</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Display ALL possible color (256) for current console</p>
+<pre><code class="language-bash">for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo
+</code></pre>
+<p>Usage of cat here file, it will add ANYTHING afterwords into FILE_NAME till a line with EOF only</p>
+<pre><code class="language-bash">cat &gt; FILE_NAME &lt;&lt; EOF
+... ...
+EOF
+</code></pre>
+<p>Create index.html file at current directory for HTTP access</p>
 <pre><code class="language-bash">tree -L 1 -I '.html|.php|.ico|zz' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/"&gt;|/" target=_blank&gt;|g' &gt; index.html
 </code></pre>
 <p>Query openweathermap.org with API key (PVG and YVR)</p>
@@ -294,7 +304,13 @@ docker push 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest
 docker ps -a
 curl localhost:88
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Count how many hits from outside to Nginx server</p>
+<pre><code class="language-bash">grep -v '192.168.0.' /var/log/nginx/access.log|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -rn
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>
+<pre><code class="language-bash">tree -H '.' -L 1 &gt; index.html &amp;&amp; php -S 192.168.56.11:8000 &amp;&amp; rm -fv index.html
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
 <p>A collections of tools, services, websites.</p>
 <ul>
 <li><a href="collections/cli.html">CLI Tools</a></li>

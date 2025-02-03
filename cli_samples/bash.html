@@ -155,7 +155,15 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Create index.html file at current directory for HTTP access</p>
+                        <p>Display ALL possible color (256) for current console</p>
+<pre><code class="language-bash">for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo
+</code></pre>
+<p>Usage of cat here file, it will add ANYTHING afterwords into FILE_NAME till a line with EOF only</p>
+<pre><code class="language-bash">cat &gt; FILE_NAME &lt;&lt; EOF
+... ...
+EOF
+</code></pre>
+<p>Create index.html file at current directory for HTTP access</p>
 <pre><code class="language-bash">tree -L 1 -I '.html|.php|.ico|zz' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/"&gt;|/" target=_blank&gt;|g' &gt; index.html
 </code></pre>
 <p>Query openweathermap.org with API key (PVG and YVR)</p>

@@ -179,6 +179,7 @@
 <li><a href="cli_samples/apache.html">Apache</a></li>
 <li><a href="cli_samples/nginx.html">Nginx</a></li>
 <li><a href="cli_samples/php.html">PHP</a></li>
+<li><a href="cli_samples/utility.html">Utility</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><p>Add user, one line command</p>
 <pre><code class="language-bash">USER=USER_ID; \
@@ -309,6 +310,22 @@ curl localhost:88
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>
 <pre><code class="language-bash">tree -H '.' -L 1 &gt; index.html &amp;&amp; php -S 192.168.56.11:8000 &amp;&amp; rm -fv index.html
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p>Install direnv # convenient tools to set environment when you enter a directory</p>
+<pre><code class="language-bash">curl -sfL https://direnv.net/install.sh | bash
+
+The direnv binary is now available in:
+
+    /usr/local/bin/direnv
+
+The last step is to configure your shell to use it. For example for bash, add
+the following lines at the end of your ~/.bashrc:
+
+    eval "$(direnv hook bash)"
+
+Then restart the shell.
+
+For other shells, see https://direnv.net/docs/hook.html
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
 <p>A collections of tools, services, websites.</p>

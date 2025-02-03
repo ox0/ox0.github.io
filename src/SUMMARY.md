@@ -6,6 +6,8 @@
   - [Alpine](cli_samples/alpine.md)
   - [Windows](cli_samples/windows.md)
   - [Bash](cli_samples/bash.md)
+  - [AWS](cli_samples/aws.md)
+  - [MySQL](cli_samples/mysql.md)
   - [Docker](cli_samples/docker.md)
   - [Apache](cli_samples/apache.md)
 

@@ -16,3 +16,7 @@ du -h|grep [[:digit:]]G|sort -k1 -n
 hdparm -Tt /dev/sda
 ```
 
+**How do I know where are SSL certificates located? for Apach2 as an example**
+```bash
+grep -Rn SSL /etc/apache2/*|grep -v \#|grep "/ssl/"
+```

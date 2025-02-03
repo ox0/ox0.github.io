@@ -1,3 +1,22 @@
+**rsync from remote to local with non-standard ssh port**
+```bash
+rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path
+```
+
+**My BASH template for any script with argument(s)**
+```bash
+#!/bin/bash
+
+if [[ $# -ne 2 ]]
+  then
+    echo -e "$0\n\tAAA_NAME ( sampleA )\n\tBBB_NAME ( sampleB )"
+cat << EOF_USAGE
+This script is to do WHATEVER ...
+EOF_USAGE
+    exit 1
+fi
+```
+
 **My .bashrc/.profile favorite**
 ```bash
 # 99+

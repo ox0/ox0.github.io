@@ -1,4 +1,4 @@
-**Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS**
+Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS
 ```bash
 touch /etc/cloud/cloud-init.disabled
 dpkg-reconfigure cloud-init   # uncheck everything except "None"

@@ -10,6 +10,8 @@
   - [MySQL](cli_samples/mysql.md)
   - [Docker](cli_samples/docker.md)
   - [Apache](cli_samples/apache.md)
+  - [Nginx](cli_samples/nginx.md)
+  - [PHP](cli_samples/php.md)
 
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)

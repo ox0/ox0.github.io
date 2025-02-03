@@ -1,3 +1,15 @@
+Display ALL possible color (256) for current console
+```bash
+for i in {1..255};do echo -en "\e[38;5;${i}m";echo -n "$i ";done;echo
+```
+
+Usage of cat here file, it will add ANYTHING afterwords into FILE_NAME till a line with EOF only
+```bash
+cat > FILE_NAME << EOF
+... ...
+EOF
+```
+
 Create index.html file at current directory for HTTP access
 ```bash
 tree -L 1 -I '.html|.php|.ico|zz' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/">|/" target=_blank>|g' > index.html

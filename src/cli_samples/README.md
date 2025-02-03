@@ -11,3 +11,5 @@ A collections of used and worked CLI samples for reference.
 - [Docker](docker.md)
 - [MySQL](mysql.md)
 - [Apache](apache.md)
+- [Nginx](nginx.md)
+- [PHP](php.md)

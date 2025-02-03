@@ -155,7 +155,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Count how many hits from outside to Nginx server</p>
+                        <p>Count and output Nginx zipped access log</p>
+<pre><code class="language-bash">zcat /var/log/nginx/access.log-*|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -k1 -r
+</code></pre>
+<p>Count how many hits from outside to Nginx server</p>
 <pre><code class="language-bash">grep -v '192.168.0.' /var/log/nginx/access.log|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -rn
 </code></pre>
 

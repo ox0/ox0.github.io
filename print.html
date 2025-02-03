@@ -392,7 +392,10 @@ docker push 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest
 docker ps -a
 curl localhost:88
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Count how many hits from outside to Nginx server</p>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p>Count and output Nginx zipped access log</p>
+<pre><code class="language-bash">zcat /var/log/nginx/access.log-*|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -k1 -r
+</code></pre>
+<p>Count how many hits from outside to Nginx server</p>
 <pre><code class="language-bash">grep -v '192.168.0.' /var/log/nginx/access.log|awk '{print $1}'|awk '{a[$0]++}END{for(i in a){print a[i],i}}'|sort -rn
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>

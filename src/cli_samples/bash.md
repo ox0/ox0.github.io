@@ -1,3 +1,30 @@
+**Create index.html file at current directory for HTTP access**
+```bash
+tree -L 1 -I '*.html|*.php|*.ico|zz*' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/">|/" target=_blank>|g' > index.html
+```
+
+**Query openweathermap.org with API key (PVG and YVR)**
+```bash
+curl -s "https://api.openweathermap.org/data/2.5/onecall?lat=31.22&lon=121.46&exclude=minutely,hourly,daily&units=metric&appid=MY_OPEN_WEATHER_MAP_API_KEY"|jq
+LOC="lat=49.25&lon=-123.12"; curl -s "https://api.openweathermap.org/data/2.5/onecall?$LOC&exclude=minutely,hourly,daily&units=metric&appid=$APPID"|jq
+```
+
+**Convert date to Unix time, and convert it back**
+```bash
+date +"%s"
+date -d @1738544871
+```
+
+**Search JSON file with specific name(s) and value(s)**
+```bash
+COUNTRY=$1;CITY=$2; jq -r ".[] | select(.country == \"$COUNTRY\" and .name == \"$CITY\")".coord city.list.json
+```
+
+**Remove files that were modified 30 days ago at the current directory**
+```bash
+find . -mtime +30 -type f -exec rm -rf {} \;
+```
+
 **Write data to SDCard, useage of dd**
 ```bash
 dd if=<image> of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress

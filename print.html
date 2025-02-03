@@ -271,7 +271,7 @@ N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
 <div style="break-before: page; page-break-before: always;"></div><p>Sync current directory to S3</p>
 <pre><code class="language-bash">export AWS_PROFILE=ratox;aws s3 sync . s3://alex.eboy.work/ --delete
 </code></pre>
-<p><strong>List AWS specific region all running instance public IPs</strong></p>
+<p>List AWS specific region all running instance public IPs</p>
 <pre><code class="language-bash">aws --profile $MY_PROFILE --region us-west-2 --output json ec2 describe-addresses | jq -r '.Addresses[].PublicIp
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p><strong>Backup MySQL DB, oneliner</strong></p>

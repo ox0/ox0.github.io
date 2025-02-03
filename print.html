@@ -203,7 +203,24 @@ reboot
 <div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p><strong>Install WindowsTerminal</strong></p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p><strong>Write data to SDCard, useage of dd</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><p><strong>Create index.html file at current directory for HTTP access</strong></p>
+<pre><code class="language-bash">tree -L 1 -I '*.html|*.php|*.ico|zz*' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/"&gt;|/" target=_blank&gt;|g' &gt; index.html
+</code></pre>
+<p><strong>Query openweathermap.org with API key (PVG and YVR)</strong></p>
+<pre><code class="language-bash">curl -s "https://api.openweathermap.org/data/2.5/onecall?lat=31.22&amp;lon=121.46&amp;exclude=minutely,hourly,daily&amp;units=metric&amp;appid=MY_OPEN_WEATHER_MAP_API_KEY"|jq
+LOC="lat=49.25&amp;lon=-123.12"; curl -s "https://api.openweathermap.org/data/2.5/onecall?$LOC&amp;exclude=minutely,hourly,daily&amp;units=metric&amp;appid=$APPID"|jq
+</code></pre>
+<p><strong>Convert date to Unix time, and convert it back</strong></p>
+<pre><code class="language-bash">date +"%s"
+date -d @1738544871
+</code></pre>
+<p><strong>Search JSON file with specific name(s) and value(s)</strong></p>
+<pre><code class="language-bash">COUNTRY=$1;CITY=$2; jq -r ".[] | select(.country == \"$COUNTRY\" and .name == \"$CITY\")".coord city.list.json
+</code></pre>
+<p><strong>Remove files that were modified 30 days ago at the current directory</strong></p>
+<pre><code class="language-bash">find . -mtime +30 -type f -exec rm -rf {} \;
+</code></pre>
+<p><strong>Write data to SDCard, useage of dd</strong></p>
 <pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
 </code></pre>
 <p><strong>Display SSL expiration date for a domain</strong></p>

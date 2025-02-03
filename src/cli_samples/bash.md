@@ -10,3 +10,14 @@ export EDITOR=nano
 #eval "$(direnv hook bash)"
 # 99+.
 ```
+
+**Rename all files in current directory**
+```bash
+N=10;for i in $(ls);do N=$(( N += 1 ));echo $i $N;done	# dry-run
+N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
+```
+
+**Write image to USB drive, sample of using dd**
+```bash
+dd if=<image> of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
+```

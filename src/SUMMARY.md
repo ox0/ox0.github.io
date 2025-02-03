@@ -6,6 +6,7 @@
   - [Alpine](cli_samples/alpine.md)
   - [Windows](cli_samples/windows.md)
   - [Bash](cli_samples/bash.md)
+  - [Docker](cli_samples/docker.md)
   - [Apache](cli_samples/apache.md)
 
 - [Collections](collections/README.md)

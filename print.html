@@ -182,7 +182,20 @@
 <li><a href="cli_samples/git.html">Git</a></li>
 <li><a href="cli_samples/utility.html">Utility</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><p>Make a ssh tunnel for postgres database access</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Say there are a few lines like this in log file:   /var/log/zabbix/zabbix_server.log</p>
+<pre><code class="language-bash">1061:20230605:175232.950 cannot send list of active checks to "11.12.13.14": host [ABC] not found
+1065:20230605:182403.690 cannot send list of active checks to "21.22.23.24": host [XYZ] not found
+</code></pre>
+<p>How can I grep ALL of them</p>
+<pre><code class="language-bash">grep 'host \[.*\] not found' /var/log/zabbix/zabbix_server.log
+</code></pre>
+<p>Verify TXT record with dig</p>
+<pre><code class="language-bash">dig TXT _D8E99F7B564DB09BE85F65861BB81679.subdomain.domain.com @8.8.8.8
+</code></pre>
+<p>Check specified domain to see the expiration date</p>
+<pre><code class="language-bash">DNS=www.hp.com;echo | openssl s_client -servername $DNS -connect $DNS:443 2&gt;/dev/null | openssl x509 -noout -enddate | sed -e 's#notAfter=##'
+</code></pre>
+<p>Make a ssh tunnel for postgres database access</p>
 <pre><code class="language-bash">ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX -L 5432:database-prod.XXXXXXXXX.us-west-2.rds.amazonaws.com:5432
 
 Connect to the database from localhost
@@ -342,7 +355,10 @@ N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
 <p>Write image to USB drive, sample of using dd</p>
 <pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>onnect to it with ssh right after pub key was sent</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Send my pubkey to AWS SSM managed server instance (needs to be sshed within 60 seconds!  Otherwise, re-send)</p>
+<pre><code class="language-bash">aws ec2-instance-connect send-ssh-public-key --profile=PROFILE --instance-id "i-XXXXXXXXXXXX" --ssh-public-key "file://id_rsa.pub" --instance-os-user=ec2-user --region "us-west-2"
+</code></pre>
+<p>Connect to it with ssh right after pub key was sent</p>
 <pre><code class="language-bash">ssh -i id_rsa ec2-user@i-XXXXXXXXXXXX
 
 Required to have ~/.ssh/config has entries like these:

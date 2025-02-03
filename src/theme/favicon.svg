@@ -1,2 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="a" x1="-66.775" y1="-171.703" x2="-66.775" y2="-171.817" gradientTransform="matrix(240, 0, 0, -240, 16042, -41206)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ec790f"/><stop offset="1" stop-color="#f51032"/></linearGradient></defs><title>file_type_favicon</title><rect x="2" y="2" width="28" height="28" rx="1.75" ry="1.75" style="fill:url(#a)"/><polygon points="16 22.625 9.511 26.033 10.75 18.815 5.5 13.704 12.755 12.65 16 6.083 19.245 12.65 26.5 13.704 21.25 18.815 22.489 26.033 16 22.625" style="fill:#fff"/></svg>
+<svg width="932" height="932" viewBox="0 0 932 932" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="466" cy="466" r="466" fill="url(#paint0_linear)"/>
+<rect width="312" height="72" transform="translate(149 341)" fill="white"/>
+<rect width="288" height="97" transform="translate(269 629) rotate(-90)" fill="white"/>
+<rect width="192" height="72" transform="translate(581 341)" fill="white"/>
+<rect width="288" height="72" transform="translate(485 557)" fill="white"/>
+<rect width="192" height="72" transform="translate(485 629) rotate(-90)" fill="white"/>
+<rect width="312" height="24" transform="translate(149 317)" fill="white" fill-opacity="0.2"/>
+<rect width="312" height="24" transform="translate(461 629)" fill="white" fill-opacity="0.2"/>
+<rect width="97" height="24" transform="translate(269 629)" fill="white" fill-opacity="0.2"/>
+<rect width="192" height="24" transform="translate(581 317)" fill="white" fill-opacity="0.2"/>
+<rect width="96" height="24" transform="translate(557 437) rotate(-90)" fill="white" fill-opacity="0.244"/>
+<rect width="96" height="24" transform="translate(461 437) rotate(-90)" fill="white" fill-opacity="0.244"/>
+<rect width="120" height="24" transform="translate(461 413)" fill="white" fill-opacity="0.172"/>
+<rect width="72" height="24" transform="translate(485 413)" fill="white" fill-opacity="0.432"/>
+<rect width="24" height="192" transform="translate(461 437)" fill="white" fill-opacity="0.76"/>
+<rect width="24" height="96" transform="translate(557 437)" fill="white" fill-opacity="0.76"/>
+<rect width="24" height="192" transform="translate(581 557) rotate(-90)" fill="white" fill-opacity="0.76"/>
+<rect width="95" height="24" transform="translate(366 413)" fill="white" fill-opacity="0.5"/>
+<rect width="192" height="24" transform="translate(581 413)" fill="white" fill-opacity="0.5"/>
+<rect width="24" height="216" transform="translate(245 413)" fill="white" fill-opacity="0.656"/>
+<rect width="24" height="120" transform="translate(149 437) rotate(-90)" fill="white" fill-opacity="0.656"/>
+<rect width="62" height="51" transform="translate(519 533)" fill="white" fill-opacity="0.928"/>
+<rect width="24" height="24" transform="translate(461 317)" fill="white" fill-opacity="0.08"/>
+<rect width="24" height="24" transform="translate(125 413)" fill="white" fill-opacity="0.164"/>
+<rect width="24" height="24" transform="translate(245 629)" fill="white" fill-opacity="0.12"/>
+<rect width="24" height="24" transform="translate(125 317)" fill="white" fill-opacity="0.08"/>
+<rect width="24" height="72" transform="translate(125 341)" fill="white" fill-opacity="0.196"/>
+<rect width="24" height="24" transform="translate(557 317)" fill="white" fill-opacity="0.08"/>
+<defs>
+<linearGradient id="paint0_linear" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(443.021 1062.93) scale(908.763) rotate(-130.66)">
+<stop stop-color="#00D301"/>
+<stop offset="0.415682" stop-color="#2AC65C"/>
+<stop offset="0.551457" stop-color="#35C074"/>
+<stop offset="0.694941" stop-color="#1AB171"/>
+<stop offset="1" stop-color="#01A663"/>
+</linearGradient>
+</defs>
+</svg>

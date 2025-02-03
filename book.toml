@@ -7,4 +7,3 @@ title = "AP's Notebook"
 
 [output.html]
 git-repository-url = "https://github.com/ox0/ox0.github.io"
-additional-css = ["theme/favicon.svg"]

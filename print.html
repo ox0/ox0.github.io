@@ -184,6 +184,9 @@ chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 <p><strong>Count the disk usage and sort at the current directory</strong></p>
 <pre><code class="language-bash">du -h|grep [[:digit:]]G|sort -k1 -n
 </code></pre>
+<p><strong>Check hard disk performance</strong></p>
+<pre><code class="language-bash">hdparm -Tt /dev/sda
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><p><strong>Disable/remove cloud-init.service at Ubuntu 22.04.2 LTS</strong></p>
 <pre><code class="language-bash">touch /etc/cloud/cloud-init.disabled
 dpkg-reconfigure cloud-init   # uncheck everything except "None"
@@ -194,7 +197,18 @@ reboot
 <div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><p><strong>Install WindowsTerminal</strong></p>
 <pre><code class="language-bash">winget install --id=Microsoft.WindowsTerminal -e
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><p><strong>My .bashrc/.profile favorite</strong></p>
+<pre><code class="language-bash"># 99+
+export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
+# w - for current working directory, absolute FULL path from / (root)
+alias rm='rm -fv' ll='ls -al ' gg='grep --color ' hh='history 33' nn='nano -w '
+
+export LS_COLORS=${LS_COLORS}:'*zz=04;31'
+export EDITOR=nano
+#eval "$(direnv hook bash)"
+# 99+.
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><div style="break-before: page; page-break-before: always;"></div><h1 id="collections"><a class="header" href="#collections">Collections</a></h1>
 <p>A collections of tools, services, websites.</p>
 <ul>
 <li><a href="collections/cli.html">CLI Tools</a></li>

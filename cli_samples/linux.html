@@ -164,6 +164,9 @@ chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 <p><strong>Count the disk usage and sort at the current directory</strong></p>
 <pre><code class="language-bash">du -h|grep [[:digit:]]G|sort -k1 -n
 </code></pre>
+<p><strong>Check hard disk performance</strong></p>
+<pre><code class="language-bash">hdparm -Tt /dev/sda
+</code></pre>
 
                     </main>
 

@@ -155,42 +155,42 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><strong>Create index.html file at current directory for HTTP access</strong></p>
-<pre><code class="language-bash">tree -L 1 -I '*.html|*.php|*.ico|zz*' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/"&gt;|/" target=_blank&gt;|g' &gt; index.html
+                        <p>Create index.html file at current directory for HTTP access</p>
+<pre><code class="language-bash">tree -L 1 -I '.html|.php|.ico|zz' -T 'MyTitle' -H .|grep -B 999 'directories,'|sed 's|/"&gt;|/" target=_blank&gt;|g' &gt; index.html
 </code></pre>
-<p><strong>Query openweathermap.org with API key (PVG and YVR)</strong></p>
+<p>Query openweathermap.org with API key (PVG and YVR)</p>
 <pre><code class="language-bash">curl -s "https://api.openweathermap.org/data/2.5/onecall?lat=31.22&amp;lon=121.46&amp;exclude=minutely,hourly,daily&amp;units=metric&amp;appid=MY_OPEN_WEATHER_MAP_API_KEY"|jq
 LOC="lat=49.25&amp;lon=-123.12"; curl -s "https://api.openweathermap.org/data/2.5/onecall?$LOC&amp;exclude=minutely,hourly,daily&amp;units=metric&amp;appid=$APPID"|jq
 </code></pre>
-<p><strong>Convert date to Unix time, and convert it back</strong></p>
+<p>Convert date to Unix time, and convert it back</p>
 <pre><code class="language-bash">date +"%s"
 date -d @1738544871
 </code></pre>
-<p><strong>Search JSON file with specific name(s) and value(s)</strong></p>
+<p>Search JSON file with specific name(s) and value(s)</p>
 <pre><code class="language-bash">COUNTRY=$1;CITY=$2; jq -r ".[] | select(.country == \"$COUNTRY\" and .name == \"$CITY\")".coord city.list.json
 </code></pre>
-<p><strong>Remove files that were modified 30 days ago at the current directory</strong></p>
+<p>Remove files that were modified 30 days ago at the current directory</p>
 <pre><code class="language-bash">find . -mtime +30 -type f -exec rm -rf {} \;
 </code></pre>
-<p><strong>Write data to SDCard, useage of dd</strong></p>
+<p>Write data to SDCard, useage of dd</p>
 <pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
 </code></pre>
-<p><strong>Display SSL expiration date for a domain</strong></p>
+<p>Display SSL expiration date for a domain</p>
 <pre><code class="language-bash">DNS=google.com;echo | openssl s_client -servername $DNS -connect $DNS:443 2&gt;/dev/null | openssl x509 -noout -enddate
 </code></pre>
-<p><strong>Kill all Zombie processes one-liner</strong></p>
+<p>Kill all Zombie processes one-liner</p>
 <pre><code class="language-bash">ps axo state,ppid | awk '!/PPID/$1~"Z"{print $2}' | xargs -r kill -9
 </code></pre>
-<p><strong>Generate one random IPv4 address</strong></p>
+<p>Generate one random IPv4 address</p>
 <pre><code class="language-bash">for i in a b c d; do echo -n $(($RANDOM % 256)).; done | sed -e "s/\.$//g"; echo
 </code></pre>
-<p><strong>rsync from remote to local</strong></p>
+<p>rsync from remote to local</p>
 <pre><code class="language-bash">rsync -chavzP --stats user@remote.host:/path/to/copy /path/to/local/storage
 </code></pre>
-<p><strong>rsync from remote to local with non-standard ssh port</strong></p>
+<p>rsync from remote to local with non-standard ssh port</p>
 <pre><code class="language-bash">rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path
 </code></pre>
-<p><strong>My BASH template for any script with argument(s)</strong></p>
+<p>My BASH template for any script with argument(s)</p>
 <pre><code class="language-bash">#!/bin/bash
 
 if [[ $# -ne 2 ]]
@@ -202,22 +202,22 @@ EOF_USAGE
     exit 1
 fi
 </code></pre>
-<p><strong>My .bashrc/.profile favorite</strong></p>
+<p>My .bashrc/.profile favorite</p>
 <pre><code class="language-bash"># 99+
 export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
 # w - for current working directory, absolute FULL path from / (root)
 alias rm='rm -fv' ll='ls -al ' gg='grep --color ' hh='history 33' nn='nano -w '
 
-export LS_COLORS=${LS_COLORS}:'*zz=04;31'
+export LS_COLORS=${LS_COLORS}:'zz=04;31'
 export EDITOR=nano
 #eval "$(direnv hook bash)"
 # 99+.
 </code></pre>
-<p><strong>Rename all files in current directory</strong></p>
+<p>Rename all files in current directory</p>
 <pre><code class="language-bash">N=10;for i in $(ls);do N=$(( N += 1 ));echo $i $N;done	# dry-run
 N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
 </code></pre>
-<p><strong>Write image to USB drive, sample of using dd</strong></p>
+<p>Write image to USB drive, sample of using dd</p>
 <pre><code class="language-bash">dd if=&lt;image&gt; of=/dev/sdx bs=4M iflag=direct,fullblock oflag=direct status=progress
 </code></pre>
 

@@ -155,20 +155,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><strong>Add user, one line command</strong></p>
+                        <p>Add user, one line command</p>
 <pre><code class="language-bash">USER=USER_ID; \
 useradd --create-home $USER; \
 rsync -razxcv /etc/skel/ $USER/; \
 chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 </code></pre>
-<p><strong>Count the disk usage and sort at the current directory</strong></p>
+<p>Count the disk usage and sort at the current directory</p>
 <pre><code class="language-bash">du -h|grep [[:digit:]]G|sort -k1 -n
 </code></pre>
-<p><strong>Check hard disk performance</strong></p>
+<p>Check hard disk performance</p>
 <pre><code class="language-bash">hdparm -Tt /dev/sda
 </code></pre>
-<p><strong>How do I know where are SSL certificates located? for Apach2 as an example</strong></p>
-<pre><code class="language-bash">grep -Rn SSL /etc/apache2/*|grep -v \#|grep "/ssl/"
+<p>How do I know where are SSL certificates located? for Apach2 as an example</p>
+<pre><code class="language-bash">grep -Rn SSL /etc/apache2/|grep -v \#|grep "/ssl/"
 </code></pre>
 
                     </main>

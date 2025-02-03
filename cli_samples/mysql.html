@@ -155,10 +155,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><strong>Backup MySQL DB, oneliner</strong></p>
+                        <p>Backup MySQL DB, oneliner</p>
 <pre><code class="language-bash">DB="my-db-name"; mysqldump -u root -p $DB &gt; ${DB}_$(date +%Y-%m-%d_%H-%M).sql
 </code></pre>
-<p><strong>Restore MySQL DB, oneliner</strong></p>
+<p>Restore MySQL DB, oneliner</p>
 <pre><code class="language-bash">DB="my-db-name"; mysql -u root -p $DB &lt; ${DB}_yyyy-mm-dd_hh-mm.sql
 </code></pre>
 

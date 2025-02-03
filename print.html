@@ -181,7 +181,27 @@
 <li><a href="cli_samples/php.html">PHP</a></li>
 <li><a href="cli_samples/utility.html">Utility</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><p>Add user, one line command</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Sort the current directory disk usage with depth 1 level down</p>
+<pre><code class="language-bash">du . -h --max-depth=1 | sort -h
+</code></pre>
+<p>Sort the current directory disk usage with depth 1 level down, VERY complicated version</p>
+<pre><code class="language-bash">du . --max-depth=1 -x -k | sort -n | awk 'function human(x) { s="KMGTEPYZ"; while (x&gt;=1000 &amp;&amp; length(s)&gt;1) {x/=1024; s=substr(s,2)} return int(x+0.5) substr(s,1,1)"iB" } {gsub(/^[0-9]+/, human($1)); print}
+</code></pre>
+<p>Sleep randomly between 0 to 3 seconds</p>
+<pre><code class="language-bash">time sleep $(($RANDOM % 3))
+</code></pre>
+<p>Draw a SOLID line across the entire width of the terminal</p>
+<pre><code class="language-bash">for ((i=0; i&lt;$(tput cols); i++)); do echo -e "_\c" ;done
+</code></pre>
+<p>Sample of search string and do something or NOT do something, if or while sample</p>
+<pre><code class="language-bash">if [ `tail -99 picked.list|grep "ent" &gt; /dev/null;echo $?` = 0 ];then echo 'Found';else echo 'Nope';fi
+
+while [ `tail -99 picked.list|grep "ent" &gt; /dev/null;echo $?` = 0 ];do SOMETHING;done
+</code></pre>
+<p>Allow ONLY subnet 192.168.0.0/24 access port 22 (ssh), and drop ALL others</p>
+<pre><code class="language-bash">iptables -I INPUT -p tcp ! -s 192.168.0.0/24 --dport 22 -j DROP
+</code></pre>
+<p>Add user, one line command</p>
 <pre><code class="language-bash">USER=USER_ID; \
 useradd --create-home $USER; \
 rsync -razxcv /etc/skel/ $USER/; \

@@ -155,7 +155,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><strong>My .bashrc/.profile favorite</strong></p>
+                        <p><strong>rsync from remote to local with non-standard ssh port</strong></p>
+<pre><code class="language-bash">rsync -avz -e "ssh -p $portNumber" user@remote.host:/path/to/copy /local/path
+</code></pre>
+<p><strong>My BASH template for any script with argument(s)</strong></p>
+<pre><code class="language-bash">#!/bin/bash
+
+if [[ $# -ne 2 ]]
+  then
+    echo -e "$0\n\tAAA_NAME ( sampleA )\n\tBBB_NAME ( sampleB )"
+cat &lt;&lt; EOF_USAGE
+This script is to do WHATEVER ...
+EOF_USAGE
+    exit 1
+fi
+</code></pre>
+<p><strong>My .bashrc/.profile favorite</strong></p>
 <pre><code class="language-bash"># 99+
 export PS1="\[\e[31m\][\[\e[m\]\[\e[38;5;172m\]\u\[\e[m\]@\[\e[38;5;153m\]\h\[\e[m\] \[\e[38;5;214m\]\w\[\e[m\]\[\e[31m\]]\[\e[m\]\\$ "
 # w - for current working directory, absolute FULL path from / (root)
@@ -182,7 +197,7 @@ N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../cli_samples/docker.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../cli_samples/aws.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -196,7 +211,7 @@ N=10;for i in $(ls);do N=$(( N += 1 ));mv $i $N;done
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../cli_samples/docker.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../cli_samples/aws.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

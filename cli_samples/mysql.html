@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>CLI Samples - AP&#x27;s Notebook</title>
+        <title>MySQL - AP&#x27;s Notebook</title>
 
 
         <!-- Custom HTML head -->
@@ -155,29 +155,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="cli-samples"><a class="header" href="#cli-samples">CLI Samples</a></h1>
-<p>A collections of used and worked CLI samples for reference.</p>
-<ul>
-<li><a href="linux.html">Linux</a></li>
-<li><a href="bash.html">Bash</a></li>
-<li><a href="aws.html">AWS</a></li>
-<li><a href="ubuntu.html">Ubuntu</a></li>
-<li><a href="alpine.html">Alpine</a></li>
-<li><a href="windows.html">Windows</a></li>
-<li><a href="docker.html">Docker</a></li>
-<li><a href="mysql.html">MySQL</a></li>
-<li><a href="apache.html">Apache</a></li>
-</ul>
+                        <p><strong>Backup MySQL DB, oneliner</strong></p>
+<pre><code class="language-bash">DB="my-db-name"; mysqldump -u root -p $DB &gt; ${DB}_$(date +%Y-%m-%d_%H-%M).sql
+</code></pre>
+<p><strong>Restore MySQL DB, oneliner</strong></p>
+<pre><code class="language-bash">DB="my-db-name"; mysql -u root -p $DB &lt; ${DB}_yyyy-mm-dd_hh-mm.sql
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../cli_samples/aws.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../cli_samples/linux.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../cli_samples/docker.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -187,11 +180,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../cli_samples/aws.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../cli_samples/linux.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../cli_samples/docker.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

@@ -167,6 +167,9 @@ chown -R $USER:users $USER/ &amp;&amp; passwd $USER
 <p><strong>Check hard disk performance</strong></p>
 <pre><code class="language-bash">hdparm -Tt /dev/sda
 </code></pre>
+<p><strong>How do I know where are SSL certificates located? for Apach2 as an example</strong></p>
+<pre><code class="language-bash">grep -Rn SSL /etc/apache2/*|grep -v \#|grep "/ssl/"
+</code></pre>
 
                     </main>
 

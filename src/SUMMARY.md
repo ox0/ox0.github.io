@@ -15,6 +15,9 @@
   - [Git](cli_samples/git.md)
   - [Utility](cli_samples/utility.md)
 
+- [Pages](pages/README.md)
+  - [Clock](pages/clock.html)
+
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)
   - [SASS Tools](collections/sass.md)

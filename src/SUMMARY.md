@@ -18,6 +18,7 @@
 - [Pages](pages/README.md)
   - [Clock](pages/clock.html)
   - [Clock Fancy](pages/clock-fancy.html)
+  - [Crontab](pages/crontab.html)
 
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)

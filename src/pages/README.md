@@ -6,3 +6,5 @@ A collections of used and worked html page samples for reference.
 - [Clock Fancy](clock-fancy.html)
 - [Crontab](crontab.html)
 - [World Time Zone](world-time-zone.html)
+- [Lego J](legoJ/index.html)
+

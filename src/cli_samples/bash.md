@@ -1,3 +1,23 @@
+One line command to deploy changes to SLS(Serverless) stack
+```bash
+sls s3sync && sls invoke -f setup
+```
+
+Open port 80 for IP 11.12.13.14 with iptables
+```bash
+iptables -I INPUT -p tcp -s 11.12.13.14 --dport 80 -j ACCEPT
+
+Saved in iptable is
+-A INPUT -s 11.12.13.14/32 -p tcp -m tcp --dport 80 -j ACCEPT
+```
+
+Sample of search string and do something or NOT do something, if or while sample
+```bash
+if [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];then echo 'Found';else echo 'Nope';fi
+
+while [ `tail -99 picked.list|grep "ent" > /dev/null;echo $?` = 0 ];do SOMETHING;done
+```
+
 Change USER_ID with PASSWORD, one line command
 ```bash
 USER_ID=USERID; PASSWORD=PASSWD; echo "$USER_ID:$PASSWORD"|chpasswd

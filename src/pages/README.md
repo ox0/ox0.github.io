@@ -7,5 +7,5 @@ A collections of used and worked html page samples for reference.
 - [Crontab](crontab/crontab.html)
 - [World Time Zone](world-time-zone/world-time-zone.html)
 - [Lego J](legoJ/index.html)
-- [Lego J](legoX/index.html)
-
+- [Lego X](legoX/index.html)
+- [Progress XJ](XJ/index.html)

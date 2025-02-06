@@ -19,6 +19,7 @@
   - [Clock](pages/clock.html)
   - [Clock Fancy](pages/clock-fancy.html)
   - [Crontab](pages/crontab.html)
+  - [World Time Zone](pages/world-time-zone.html)
 
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)

@@ -1,3 +1,15 @@
+Docker build a image with tag and local Docker file
+```bash
+docker build -t panel-auth:v1.0 .
+```
+
+Remove ALL docker images
+```bash
+docker images
+docker images -q |gg -v 'REPOSITORY'|xargs docker rmi -f
+docker images
+```
+
 Docker pull, tag and push image to AWS ECR
 ```bash
 docker pull arturn311/node_js_app

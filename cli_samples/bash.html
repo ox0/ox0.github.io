@@ -155,7 +155,21 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Change USER_ID with PASSWORD, one line command</p>
+                        <p>One line command to deploy changes to SLS(Serverless) stack</p>
+<pre><code class="language-bash">sls s3sync &amp;&amp; sls invoke -f setup
+</code></pre>
+<p>Open port 80 for IP 11.12.13.14 with iptables</p>
+<pre><code class="language-bash">iptables -I INPUT -p tcp -s 11.12.13.14 --dport 80 -j ACCEPT
+
+Saved in iptable is
+-A INPUT -s 11.12.13.14/32 -p tcp -m tcp --dport 80 -j ACCEPT
+</code></pre>
+<p>Sample of search string and do something or NOT do something, if or while sample</p>
+<pre><code class="language-bash">if [ `tail -99 picked.list|grep "ent" &gt; /dev/null;echo $?` = 0 ];then echo 'Found';else echo 'Nope';fi
+
+while [ `tail -99 picked.list|grep "ent" &gt; /dev/null;echo $?` = 0 ];do SOMETHING;done
+</code></pre>
+<p>Change USER_ID with PASSWORD, one line command</p>
 <pre><code class="language-bash">USER_ID=USERID; PASSWORD=PASSWD; echo "$USER_ID:$PASSWORD"|chpasswd
 </code></pre>
 <p>Generate 12 characters long random password</p>

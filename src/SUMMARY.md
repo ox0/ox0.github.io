@@ -16,11 +16,12 @@
   - [Utility](cli_samples/utility.md)
 
 - [Pages](pages/README.md)
-  - [Clock](pages/clock.html)
-  - [Clock Fancy](pages/clock-fancy.html)
-  - [Crontab](pages/crontab.html)
-  - [World Time Zone](pages/world-time-zone.html)
+  - [Clock](pages/clock/index.html)
+  - [Clock Fancy](pages/clock-fancy/index.html)
+  - [Crontab](pages/crontab/crontab.html)
+  - [World Time Zone](pages/world-time-zone/world-time-zone.html)
   - [Lego J](pages/legoJ/index.html)
+  - [Lego X](pages/legoX/index.html)
 
 - [Collections](collections/README.md)
   - [Cli Tools](collections/cli.md)

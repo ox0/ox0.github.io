@@ -155,7 +155,15 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Docker pull, tag and push image to AWS ECR</p>
+                        <p>Docker build a image with tag and local Docker file</p>
+<pre><code class="language-bash">docker build -t panel-auth:v1.0 .
+</code></pre>
+<p>Remove ALL docker images</p>
+<pre><code class="language-bash">docker images
+docker images -q |gg -v 'REPOSITORY'|xargs docker rmi -f
+docker images
+</code></pre>
+<p>Docker pull, tag and push image to AWS ECR</p>
 <pre><code class="language-bash">docker pull arturn311/node_js_app
 docker tag arturn311/node_js_app 123412341234.dkr.ecr.us-west-2.amazonaws.com/my-test:latest
 aws ecr get-login-password --region us-west-2 --profile XXXXXX | docker login --username AWS --password-stdin 123412341234.dkr.ecr.us-west-2.amazonaws.com

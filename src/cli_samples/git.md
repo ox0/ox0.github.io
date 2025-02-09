@@ -1,3 +1,24 @@
+This also need to be set in the directory
+```bash
+cat .envrc
+#!/bin/bash
+
+git config user.email "alex.pan@shaw.ca"
+git config user.name "ox0"
+```
+
+Set GitHub auto choose user when cd to the directory
+```bash
+Instead to use the normal ssh clone command:
+git clone git@github.com:ox0/ox0.github.io.git
+
+Use this one to specify the user:
+git clone git@github-ox0:ox0/ox0.github.io.git
+
+This way to specify the use, so if the use has setup in .ssh/config file, it will be chosen
+
+```
+
 Remove zz.txt from repo
 add zz.txt into .gitignore file
 ```bash

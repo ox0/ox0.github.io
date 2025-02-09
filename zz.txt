@@ -5,6 +5,8 @@ Identity added: /opt/key/ox0.github.rsa (/opt/key/ox0.github.rsa)
 ssh -T git@github.com
 Hi ox0! You've successfully authenticated, but GitHub does not provide shell access.
 
+git add -A && git commit -a -m 'update' && git push
+
 # key point to deployment:
 Make sure set these at: https://github.com/ox0/ox0.github.io/settings/pages
 Build and deployment / Source - Deploy from a branch

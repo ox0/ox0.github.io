@@ -3,7 +3,7 @@ This also need to be set in the directory
 cat .envrc
 #!/bin/bash
 
-git config user.email "alex.pan@shaw.ca"
+git config user.email "aXXX.pXX@sXXX.cX"
 git config user.name "ox0"
 ```
 

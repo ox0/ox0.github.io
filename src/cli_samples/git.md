@@ -1,3 +1,10 @@
+Remove zz.txt from repo
+add zz.txt into .gitignore file
+```bash
+git rm --cached zz.txt
+git add -A && git commit -a -m 'update' && git push
+```
+
 Initial a repository / update an existing repository:
 ```bash
 git clone XXX.git / git pull

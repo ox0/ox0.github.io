@@ -424,7 +424,12 @@ curl localhost:88
 <div style="break-before: page; page-break-before: always;"></div><p>Make current directory HTML web page with php (ONLY can view text files, sub-directory accessiable when L set 2 or more)</p>
 <pre><code class="language-bash">tree -H '.' -L 1 &gt; index.html &amp;&amp; php -S 192.168.56.11:8000 &amp;&amp; rm -fv index.html
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>Initial a repository / update an existing repository:</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Remove zz.txt from repo
+add zz.txt into .gitignore file</p>
+<pre><code class="language-bash">git rm --cached zz.txt
+git add -A &amp;&amp; git commit -a -m 'update' &amp;&amp; git push
+</code></pre>
+<p>Initial a repository / update an existing repository:</p>
 <pre><code class="language-bash">git clone XXX.git / git pull
 </code></pre>
 <p>One line command to do commit and push together after any changes made at local repository</p>

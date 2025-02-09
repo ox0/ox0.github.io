@@ -155,7 +155,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Initial a repository / update an existing repository:</p>
+                        <p>Remove zz.txt from repo
+add zz.txt into .gitignore file</p>
+<pre><code class="language-bash">git rm --cached zz.txt
+git add -A &amp;&amp; git commit -a -m 'update' &amp;&amp; git push
+</code></pre>
+<p>Initial a repository / update an existing repository:</p>
 <pre><code class="language-bash">git clone XXX.git / git pull
 </code></pre>
 <p>One line command to do commit and push together after any changes made at local repository</p>

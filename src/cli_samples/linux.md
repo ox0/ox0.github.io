@@ -1,3 +1,12 @@
+Mount a disk in fstab file
+```bash
+nano -w /etc/fstab
+... ...
+/swap.img       none    swap    sw      0       0
+
+/dev/sdb1  /opt  ext4  defaults  0  2
+```
+
 Get IMPORTANT constance
 ```bash
 # get PI

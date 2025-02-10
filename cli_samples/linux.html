@@ -155,7 +155,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>Get IMPORTANT constance</p>
+                        <p>Mount a disk in fstab file</p>
+<pre><code class="language-bash">nano -w /etc/fstab
+... ...
+/swap.img       none    swap    sw      0       0
+
+/dev/sdb1  /opt  ext4  defaults  0  2
+</code></pre>
+<p>Get IMPORTANT constance</p>
 <pre><code class="language-bash"># get PI
 echo "scale=100; 4*a(1)" | bc -l
 

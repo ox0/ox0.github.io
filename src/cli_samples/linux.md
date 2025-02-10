@@ -1,3 +1,12 @@
+Get IMPORTANT constance
+```bash
+# get PI
+echo "scale=100; 4*a(1)" | bc -l
+
+# get E
+echo "scale=100; e(1)" | bc -l
+```
+
 Say there are a few lines like this in log file:   /var/log/zabbix/zabbix_server.log
 ```bash
 1061:20230605:175232.950 cannot send list of active checks to "11.12.13.14": host [ABC] not found

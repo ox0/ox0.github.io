@@ -1,3 +1,15 @@
+Sample of run a task periodically when certain check command failed
+```bash
+/etc/cron.d/apan
+9,39 6-16 * * * root /root/check2run.sh
+
+/root/check2run.sh
+#!/bin/bash
+
+docker ps -a|grep Exited; if [ $? -eq 0 ]; then cd /home/ec2-user/devlake/;docker-compose up -d; elif [ $? -eq 1 ]; then echo "Looks OK"; else echo "Failed with a different exit code: $?."; fi
+
+```
+
 Mount a disk in fstab file
 ```bash
 nano -w /etc/fstab

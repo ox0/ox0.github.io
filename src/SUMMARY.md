@@ -20,8 +20,6 @@
   - [Clock Fancy](pages/clock-fancy/index.html)
   - [Crontab](pages/crontab/crontab.html)
   - [World Time Zone](pages/world-time-zone/world-time-zone.html)
-  - [Lego J](pages/legoJ/index.html)
-  - [Lego X](pages/legoX/index.html)
   - [Progress XJ](pages/XJ/index.html)
 
 - [Collections](collections/README.md)

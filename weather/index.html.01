@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather Chart - Default Band Visible</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #0f172a;
+    color: #e5e7eb;
+    font-family: Arial, sans-serif;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#header {
+    background: #111827;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#title { font-weight:bold; }
+
+input {
+    background:#1f2937;
+    border:none;
+    color:white;
+    padding:6px;
+}
+
+button {
+    background:#1f2937;
+    border:1px solid #374151;
+    color:white;
+    padding:6px 10px;
+    cursor:pointer;
+}
+
+button.active { background:#2563eb; }
+
+#chartContainer {
+    flex:1;
+    position:relative;
+    min-height:0;
+}
+
+canvas {
+    display:block;
+    width:100% !important;
+    height:100% !important;
+}
+</style>
+</head>
+<body>
+<div id="container">
+    <div id="header">
+        <div id="title">Weather: Vancouver</div>
+        <input id="search" placeholder="Enter city..." />
+        <button onclick="searchCity()">Search</button>
+        <button onclick="setRange(30)">1M</button>
+        <button onclick="setRange(90)" class="active">3M</button>
+        <button onclick="setRange(365)">1Y</button>
+    </div>
+    <div id="chartContainer">
+        <canvas id="chart"></canvas>
+    </div>
+</div>
+
+<script>
+// Default cities
+let CITY_LIST = [
+    {name:"Vancouver", lat:49.2827, lon:-123.1207},
+    {name:"Shanghai", lat:31.2304, lon:121.4737},
+    {name:"Hong Kong", lat:22.3193, lon:114.1694}
+];
+const STORAGE_KEY="weather_tv_v21";
+let chart, fullData={}, currentRange=90;
+
+// Fetch weather
+async function fetchWeather(city){
+    const today=new Date();
+    const past=new Date(); past.setDate(today.getDate()-365);
+    const fmt=d=>d.toISOString().split("T")[0];
+    const url=`https://archive-api.open-meteo.com/v1/archive?latitude=${city.lat}&longitude=${city.lon}&daily=temperature_2m_max,temperature_2m_min&timezone=auto&start_date=${fmt(past)}&end_date=${fmt(today)}`;
+    const res=await fetch(url);
+    const data=await res.json();
+    return data.daily;
+}
+
+// Storage
+function loadData(){ return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}"); }
+function saveData(d){ localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+function mergeData(existing, incoming, cityName){
+    incoming.time.forEach((date,i)=>{
+        if(!existing[date]) existing[date]={};
+        existing[date][cityName]={min: incoming.temperature_2m_min[i], max: incoming.temperature_2m_max[i]};
+    });
+    return existing;
+}
+
+// Right padding
+function addRightPadding(labels, datasets, percent=0.05){
+    const extra = Math.ceil(labels.length * percent);
+    for(let i=0;i<extra;i++){
+        labels.push('');
+        datasets.forEach(ds => ds.data.push(null));
+    }
+    return {labels, datasets};
+}
+
+// Build view
+function buildView(range){
+    const dates = Object.keys(fullData).sort();
+    const visible = dates.slice(-range);
+    let labels = [...visible];
+    let datasets = [];
+
+    CITY_LIST.forEach((city, idx)=>{
+        const hue = idx*90;
+        const color = `hsl(${hue},70%,50%)`;
+        const minData = visible.map(d=>fullData[d]?.[city.name]?.min ?? null);
+        const maxData = visible.map(d=>fullData[d]?.[city.name]?.max ?? null);
+
+        // MIN line
+        datasets.push({
+            label: `${city.name} Min`,
+            data: minData,
+            borderColor: color,
+            backgroundColor: ctx => {
+                const gradient = ctx.chart.ctx.createLinearGradient(0,0,0,ctx.chart.height);
+                gradient.addColorStop(0, `hsla(${hue},70%,50%,0.4)`);
+                gradient.addColorStop(1, `hsla(${hue},70%,50%,0)`);
+                return gradient;
+            },
+            fill: '+1', // fill to Max
+            tension:0.3,
+            pointRadius:0,
+            hidden: false // now visible by default
+        });
+
+        // MAX line
+        datasets.push({
+            label: `${city.name} Max`,
+            data: maxData,
+            borderColor: color,
+            backgroundColor: ctx => {
+                const gradient = ctx.chart.ctx.createLinearGradient(0,0,0,ctx.chart.height);
+                gradient.addColorStop(0, `hsla(${hue},70%,50%,0.4)`);
+                gradient.addColorStop(1, `hsla(${hue},70%,50%,0)`);
+                return gradient;
+            },
+            fill:false,
+            tension:0.3,
+            pointRadius:0
+        });
+    });
+
+    return addRightPadding(labels, datasets, 0.05);
+}
+
+// Stacked right labels plugin
+const rightLabelsPlugin = {
+    id:'rightLabels',
+    afterDraw(chart){
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.resetTransform(); // use full canvas coordinates
+
+        const startY = 50;
+        const spacing = 20;
+        const rightX = chart.chartArea.right + 10;
+
+        CITY_LIST.forEach((city, idx)=>{
+            const maxDS = chart.data.datasets.find(ds=>ds.label===`${city.name} Max`);
+            const minDS = chart.data.datasets.find(ds=>ds.label===`${city.name} Min`);
+            if(!maxDS || !minDS) return;
+
+            const index = maxDS.data.length-1;
+            const maxVal = maxDS.data[index];
+            const minVal = minDS.data[index];
+            if(maxVal==null || minVal==null) return;
+
+            const y = startY + idx*spacing;
+            ctx.font = '12px Arial';
+            ctx.fillStyle = maxDS.borderColor;
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(`${city.name}: ${minVal}°C - ${maxVal}°C`, rightX, y);
+        });
+        ctx.restore();
+    }
+};
+
+// Draw chart
+function drawChart(view){
+    const ctx = document.getElementById("chart");
+    if(chart) chart.destroy();
+    chart = new Chart(ctx,{
+        type:'line',
+        data:view,
+        options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            layout:{padding:0},
+            animation:{duration:500},
+            interaction:{mode:'index', intersect:false},
+            scales:{
+                x:{ticks:{color:'#9ca3af'},grid:{color:'#1f2937',drawTicks:false}},
+                y:{ticks:{color:'#ffff00'},grid:{color:'#1f2937',drawTicks:false},position:'right'}
+            },
+            plugins:{
+                legend:{labels:{color:'#e5e7eb'}},
+                tooltip:{
+                    callbacks:{
+                        label:function(context){
+                            if(context.dataset.label.includes('Min')) return null;
+                            const cityName = context.dataset.label.replace(' Max','');
+                            const index = context.dataIndex;
+                            const minDS = context.chart.data.datasets.find(ds=>ds.label===`${cityName} Min`);
+                            const minVal = minDS?.data[index];
+                            const maxVal = context.raw;
+                            return `${cityName}: ${minVal}°C - ${maxVal}°C`;
+                        }
+                    },
+                    backgroundColor:'#111827'
+                }
+            }
+        },
+        plugins:[rightLabelsPlugin]
+    });
+}
+
+// Range buttons
+function setRange(range){
+    currentRange = range;
+    document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+    event.target.classList.add("active");
+    drawChart(buildView(range));
+}
+
+// Search city
+async function searchCity(){
+    const input=document.getElementById("search").value;
+    if(!input) return;
+    const res=await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${input}`);
+    const data=await res.json();
+    if(!data.results){ alert("City not found"); return; }
+    const r=data.results[0];
+    CITY_LIST.push({name:r.name, lat:r.latitude, lon:r.longitude});
+    localStorage.clear();
+    init();
+}
+
+// Init
+async function init(){
+    let stored = loadData();
+    for(const city of CITY_LIST){
+        if(!stored[city.name]){
+            const newData = await fetchWeather(city);
+            stored = mergeData(stored,newData,city.name);
+        }
+    }
+    saveData(stored);
+    fullData = stored;
+    document.getElementById("title").innerText=`Weather: ${CITY_LIST.map(c=>c.name).join(", ")}`;
+    drawChart(buildView(currentRange));
+
+    // Auto-refresh at midnight
+    const now = new Date();
+    const nextMidnight = new Date(); nextMidnight.setHours(24,0,0,0);
+    setTimeout(()=>{ init(); }, nextMidnight-now);
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Analog Clock with Canvas Hands</title>
+<style>
+:root {
+ --main-bg-color: #fff;
+ --main-text-color: #888;
+}
+[data-theme="dark"] {
+ --main-bg-color: #1e1f26;
+ --main-text-color: #ccc;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+ height:100vh;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ background-color: var(--main-bg-color);
+ transition:0.2s;
+}
+
+.clock-container {
+ position:relative;
+ width:min(75vw,75vh);
+ height:min(75vw,75vh);
+}
+
+#clockCanvas {
+ width:100%;
+ height:100%;
+ display:block;
+ border-radius:50%;
+ position:absolute;
+ top:0; left:0;
+ pointer-events:none;
+}
+
+.clock-bg {
+ width:100%;
+ height:100%;
+ background-image: url("https://imvpn22.github.io/analog-clock/clock.png");
+ background-size: cover;
+ background-position: center;
+ border-radius:50%;
+ box-shadow: 0 -15px 15px rgba(255, 255, 255, 0.05),
+  inset 0 -15px 15px rgba(255, 255, 255, 0.05),
+  0 15px 15px rgba(0, 0, 0, 0.3),
+  inset 0 15px 15px rgba(0, 0, 0, 0.3);
+}
+
+.date-display {
+ margin-top:25px;
+ font-family: monospace;
+ font-size:1.8rem;
+ color:var(--main-text-color);
+ letter-spacing:2px;
+}
+.time-display {
+ margin-top:8px;
+ font-family: monospace;
+ font-size:2.8rem;
+ color:var(--main-text-color);
+ letter-spacing:3px;
+}
+.blink { opacity:1; }
+.blink.off { opacity:0.2; }
+
+.controls { margin-top:20px; display:flex; gap:10px; opacity:0.6; transition:opacity 0.2s; }
+.controls:hover { opacity:1; }
+select, button { font-family:monospace; padding:0.4rem 0.6rem; background:var(--main-bg-color); color:var(--main-text-color); border:1px solid var(--main-text-color); cursor:pointer; }
+</style>
+</head>
+<body>
+
+<div class="clock-container">
+ <div class="clock-bg"></div>
+ <canvas id="clockCanvas" width="600" height="600"></canvas>
+</div>
+
+<div class="date-display" id="dateDisplay"></div>
+<div class="time-display" id="timeDisplay"></div>
+<div class="controls">
+ <select id="timezone"></select>
+ <button id="themeBtn">dark</button>
+</div>
+
+<script>
+const canvas = document.getElementById('clockCanvas');
+const ctx = canvas.getContext('2d');
+const width = canvas.width;
+const height = canvas.height;
+const radius = width/2;
+
+const dateDisplay = document.getElementById("dateDisplay");
+const timeDisplay = document.getElementById("timeDisplay");
+const timezoneSelect = document.getElementById("timezone");
+const themeBtn = document.getElementById("themeBtn");
+
+const days=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+// Populate timezones
+Intl.supportedValuesOf("timeZone").forEach(tz=>{
+ const o=document.createElement("option"); o.value=tz; o.textContent=tz; timezoneSelect.appendChild(o);
+});
+timezoneSelect.value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+let blinkState=true;
+
+function drawHand(angle,length,width,color){
+ ctx.save();
+ ctx.rotate(angle);
+ ctx.beginPath();
+ ctx.moveTo(0,0);
+ ctx.lineTo(0,-length);
+ ctx.lineWidth=width;
+ ctx.lineCap='round';
+ ctx.strokeStyle=color;
+ ctx.stroke();
+ ctx.restore();
+}
+
+function updateClock(){
+ ctx.clearRect(0,0,width,height);
+ ctx.save();
+ ctx.translate(width/2,height/2);
+
+ const tz = timezoneSelect.value;
+ const now = new Date(new Date().toLocaleString("en-US",{timeZone:tz}));
+
+ const hh=now.getHours();
+ const mm=now.getMinutes();
+ const ss=now.getSeconds();
+ const ms=now.getMilliseconds();
+
+ // Smooth hands
+ const secondAngle = ((ss + ms/1000)/60)*2*Math.PI;
+ const minuteAngle = ((mm + ss/60)/60)*2*Math.PI;
+ const hourAngle = ((hh%12 + mm/60 + ss/3600)/12)*2*Math.PI;
+
+ const handColor = getComputedStyle(document.documentElement).getPropertyValue('--main-text-color');
+
+ drawHand(hourAngle, radius*0.5, 6, handColor);
+ drawHand(minuteAngle, radius*0.65, 4, handColor);
+ drawHand(secondAngle, radius*0.75, 2, '#f00');
+
+ ctx.restore();
+
+ // Date
+ const dayName=days[now.getDay()];
+ dateDisplay.textContent=`${dayName} ${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+ // Digital
+ const period = hh>=12?"PM":"AM";
+ const hour12 = hh%12||12;
+ const dHH=String(hour12).padStart(2,'0');
+ const dMM=String(mm).padStart(2,'0');
+ const dSS=String(ss).padStart(2,'0');
+
+ blinkState=!blinkState;
+
+ const blinkColon = ss % 2 === 0; // true for even seconds
+ const colonClass = blinkColon ? "blink" : "blink off";
+
+ timeDisplay.innerHTML=`${dHH}<span class="${colonClass}">:</span>${dMM}<span class="${colonClass}">:</span>${dSS} ${period}`;
+
+ requestAnimationFrame(updateClock);
+}
+
+requestAnimationFrame(updateClock);
+
+// Theme toggle
+themeBtn.addEventListener("click",()=>{
+ const current=document.documentElement.getAttribute("data-theme");
+ if(current==="dark"){ document.documentElement.setAttribute("data-theme","light"); themeBtn.textContent="light";}
+ else{ document.documentElement.setAttribute("data-theme","dark"); themeBtn.textContent="dark";}
+});
+document.documentElement.setAttribute("data-theme","dark");
+
+// Fullscreen double click
+document.body.addEventListener("dblclick",()=>{
+ if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fullscreen Flip Clock</title>
+  <style>
+    :root{
+      --bg: #000;
+      --panelTop: #161616;
+      --panelBottom: #0a0a0a;
+      --text: #cfcfcf;
+      --shadow: rgba(0,0,0,.78);
+      --radius: 14px;
+
+      --gap: clamp(14px, 2.6vw, 34px);
+      --colonWidth: clamp(22px, 4.2vw, 90px);
+
+      --flipMs: 520ms;
+
+      /* Driven by JS (panel-relative sizing) */
+      --hFont: 200px;
+      --mFont: 200px;
+
+      /* Colon dots driven by JS */
+      --dot: 18px;      /* dot diameter */
+      --dotGap: 26px;   /* distance between dot centers */
+      --colonOpacityOn: 1;
+      --colonOpacityOff: .12;
+
+      /* Date styling */
+      --dateColor: #cfcfcf;
+      --dateBg: rgba(255,255,255,.06);
+      --dateBorder: rgba(255,255,255,.10);
+    }
+
+    html, body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      overflow:hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      user-select:none;
+    }
+
+    /* Page layout: clock takes most space; date sits below */
+    .stage{
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      justify-content:stretch;
+      padding: clamp(10px, 2vw, 30px);
+      box-sizing:border-box;
+      gap: clamp(10px, 2vh, 18px);
+    }
+
+    /* Clock area grows to fill remaining space */
+    .clockArea{
+      flex: 1 1 auto;
+      min-height: 0;
+      display:flex;
+      align-items:stretch;
+      justify-content:stretch;
+    }
+
+    /* AM/PM + HH + colon + MM */
+    .clock{
+      width:100%;
+      height:100%;
+      display:grid;
+      grid-template-columns: auto 1fr var(--colonWidth) 1fr;
+      gap: var(--gap);
+      align-items:stretch;
+    }
+
+    .ampm{
+      align-self:end;
+      color:#8f8f8f;
+      font-weight:650;
+      letter-spacing:.14em;
+      font-size: clamp(14px, 1.7vw, 22px);
+      margin-bottom: clamp(10px, 2.3vh, 28px);
+      text-transform:uppercase;
+      opacity:.95;
+      min-width: 3.2em;
+      text-align:right;
+      padding-right: clamp(2px, .4vw, 8px);
+      text-shadow: 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .panel{
+      position:relative;
+      width:100%;
+      height:100%;
+      min-width:0;
+      border-radius: var(--radius);
+      background: linear-gradient(var(--panelTop), var(--panelBottom));
+      box-shadow:
+        0 22px 55px var(--shadow),
+        inset 0 1px 0 rgba(255,255,255,.05),
+        inset 0 -1px 0 rgba(0,0,0,.72);
+      overflow:hidden;
+    }
+
+    /* center seam */
+    .panel::before{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      top:50%;
+      height:2px;
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 1px 0 rgba(0,0,0,.75);
+      transform: translateY(-1px);
+      pointer-events:none;
+      z-index: 5;
+    }
+
+    /* Always-visible base text */
+    .base{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 1;
+      pointer-events:none;
+    }
+
+    .base span{
+      font-variant-numeric: tabular-nums;
+      font-weight: 760;
+      color: var(--text);
+      letter-spacing: .04em;
+      line-height: 0.92;
+      white-space: nowrap;
+      text-shadow:
+        0 2px 0 rgba(255,255,255,.06),
+        0 22px 32px rgba(0,0,0,.65);
+    }
+
+    #baseH{ font-size: var(--hFont); }
+    #baseM{ font-size: var(--mFont); }
+
+    /* Flip overlay layer */
+    .flipLayer{
+      position:absolute;
+      inset:0;
+      perspective: 1400px;
+      z-index: 10;
+      pointer-events:none;
+    }
+
+    .flap{
+      position:absolute;
+      left:0; right:0;
+      height:50%;
+      overflow:hidden;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity: 0;
+    }
+
+    .flap.top{
+      top:0;
+      background: linear-gradient(#1f1f1f, #151515);
+      transform-origin: bottom;
+      transform: rotateX(0deg);
+    }
+
+    .flap.bottom{
+      bottom:0;
+      background: linear-gradient(#0d0d0d, #070707);
+      transform-origin: top;
+      transform: rotateX(90deg);
+    }
+
+    /* Text in flaps: seam anchored */
+    .flap .t{
+      position:absolute;
+      left:50%;
+      transform: translate(-50%, -50%);
+      font-variant-numeric: tabular-nums;
+      font-weight: 760;
+      color: var(--text);
+      letter-spacing: .04em;
+      line-height: 0.92;
+      white-space:nowrap;
+      text-shadow:
+        0 2px 0 rgba(255,255,255,.06),
+        0 22px 32px rgba(0,0,0,.65);
+    }
+
+    .flap.top .t{ top: 100%; }
+    .flap.bottom .t{ top: 0%; }
+
+    #H_top, #H_bottom { font-size: var(--hFont); }
+    #M_top, #M_bottom { font-size: var(--mFont); }
+
+    /* Flip animation trigger */
+    .panel.flipping .flap{ opacity: 1; }
+    .panel.flipping .flap.top{ animation: flipTop var(--flipMs) ease-in forwards; }
+    .panel.flipping .flap.bottom{ animation: flipBottom var(--flipMs) ease-out forwards; }
+
+    @keyframes flipTop{
+      0%   { transform: rotateX(0deg); }
+      100% { transform: rotateX(-90deg); }
+    }
+    @keyframes flipBottom{
+      0%   { transform: rotateX(90deg); }
+      100% { transform: rotateX(0deg); }
+    }
+
+    /* ===== Colon (CSS dots) ===== */
+    .colonWrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100%;
+    }
+
+    .colonDots{
+      position:relative;
+      width: 100%;
+      height: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      opacity: var(--colonOpacityOn);
+      transition: opacity 120ms linear;
+    }
+    .colonDots.off{
+      opacity: var(--colonOpacityOff);
+    }
+
+    .colonDots::before,
+    .colonDots::after{
+      content:"";
+      position:absolute;
+      width: var(--dot);
+      height: var(--dot);
+      border-radius: 999px;
+      background: var(--text);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,.06),
+        0 18px 28px rgba(0,0,0,.65);
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .colonDots::before{
+      top: calc(50% - (var(--dotGap) / 2) - (var(--dot) / 2));
+    }
+    .colonDots::after{
+      top: calc(50% + (var(--dotGap) / 2) - (var(--dot) / 2));
+    }
+
+    /* ===== Date + Timezone section ===== */
+    .infoArea{
+      flex: 0 0 auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      gap: 10px;
+    }
+
+    /* Date line (clickable) */
+    .dateLine{
+      width: min(920px, 96vw);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 18px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--dateBg);
+      border: 1px solid var(--dateBorder);
+      cursor: pointer;
+      box-sizing:border-box;
+      box-shadow: 0 18px 35px rgba(0,0,0,.55);
+    }
+
+    .dateText{
+      color: var(--dateColor);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: clamp(22px, 4.2vw, 56px);
+      letter-spacing: .08em;
+      text-shadow:
+        0 2px 0 rgba(255,255,255,.06),
+        0 16px 26px rgba(0,0,0,.55);
+      white-space: nowrap;
+    }
+
+    .hint{
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      letter-spacing: .08em;
+      margin-top: -2px;
+      user-select:none;
+    }
+
+    /* Timezone picker panel */
+    .tzPanel{
+      width: min(920px, 96vw);
+      display:none;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 35px rgba(0,0,0,.55);
+      box-sizing:border-box;
+    }
+    .tzPanel.open{ display:block; }
+
+    .tzRow{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+
+    .tzLabel{
+      color: rgba(255,255,255,.70);
+      font-size: 13px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      min-width: 92px;
+      flex: 0 0 auto;
+    }
+
+    select.tzSelect{
+      flex: 1 1 auto;
+      min-width: 0;
+      height: 44px;
+      background: rgba(0,0,0,.15);
+      color: rgba(255,255,255,.86);
+      border: 1px solid rgba(255,255,255,.22);
+      border-radius: 10px;
+      padding: 0 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 18px;
+      outline: none;
+    }
+
+    /* Optional HUD */
+    .hud{
+      position:fixed;
+      bottom:14px;
+      right:14px;
+      display:flex;
+      gap:10px;
+      opacity:0;
+      transition: opacity .2s ease;
+      z-index: 20;
+    }
+    body:hover .hud{ opacity:.9; }
+    .btn{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: rgba(255,255,255,.85);
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      cursor:pointer;
+      backdrop-filter: blur(6px);
+    }
+    .btn:active{ transform: translateY(1px); }
+
+    @media (prefers-reduced-motion: reduce){
+      :root{ --flipMs: 1ms; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stage">
+    <div class="clockArea">
+      <div class="clock" aria-label="Fullscreen flip clock">
+        <div class="ampm" id="ampm">PM</div>
+
+        <!-- HOURS PANEL -->
+        <div class="panel" id="panelH" aria-label="Hours">
+          <div class="base"><span id="baseH">00</span></div>
+
+          <div class="flipLayer" aria-hidden="true">
+            <div class="flap top"><div class="t" id="H_top">00</div></div>
+            <div class="flap bottom"><div class="t" id="H_bottom">00</div></div>
+          </div>
+        </div>
+
+        <!-- COLON -->
+        <div class="colonWrap" aria-hidden="true">
+          <div class="colonDots" id="colonDots"></div>
+        </div>
+
+        <!-- MINUTES PANEL -->
+        <div class="panel" id="panelM" aria-label="Minutes">
+          <div class="base"><span id="baseM">00</span></div>
+
+          <div class="flipLayer" aria-hidden="true">
+            <div class="flap top"><div class="t" id="M_top">00</div></div>
+            <div class="flap bottom"><div class="t" id="M_bottom">00</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date + Timezone -->
+    <div class="infoArea">
+      <div class="dateLine" id="dateLine" title="Click to change time zone">
+        <div class="dateText" id="dateText">Monday 2026-04-06</div>
+      </div>
+      <div class="hint">Click the date to change time zone</div>
+
+      <div class="tzPanel" id="tzPanel">
+        <div class="tzRow">
+          <div class="tzLabel">Time zone</div>
+          <select class="tzSelect" id="tzSelect"></select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hud">
+    <button class="btn" id="toggleFormat">12h</button>
+    <button class="btn" id="fullscreen">Fullscreen</button>
+  </div>
+
+  <script>
+    (function(){
+      // Elements
+      const ampmEl    = document.getElementById('ampm');
+      const colonDots = document.getElementById('colonDots');
+
+      const panelH = document.getElementById('panelH');
+      const panelM = document.getElementById('panelM');
+
+      const baseH = document.getElementById('baseH');
+      const baseM = document.getElementById('baseM');
+
+      const H_top    = document.getElementById('H_top');
+      const H_bottom = document.getElementById('H_bottom');
+      const M_top    = document.getElementById('M_top');
+      const M_bottom = document.getElementById('M_bottom');
+
+      const dateText = document.getElementById('dateText');
+      const dateLine = document.getElementById('dateLine');
+      const tzPanel  = document.getElementById('tzPanel');
+      const tzSelect = document.getElementById('tzSelect');
+
+      const toggleBtn = document.getElementById('toggleFormat');
+      const fsBtn     = document.getElementById('fullscreen');
+
+      // Settings
+      let use24h = false;
+      const pad2 = (n) => String(n).padStart(2, '0');
+
+      // Time zone: default to computer zone, but allow saved override
+      const systemTz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+      const savedTz  = localStorage.getItem('flipclock.tz');
+      let currentTz  = savedTz || systemTz;
+
+      // Populate time zones (best: Intl.supportedValuesOf; fallback: common list)
+      function getTimeZones(){
+        if (typeof Intl.supportedValuesOf === 'function') {
+          try { return Intl.supportedValuesOf('timeZone'); } catch(e) {}
+        }
+        // Fallback list (common IANA zones)
+        return [
+          'UTC',
+          'America/Vancouver','America/Los_Angeles','America/Denver','America/Chicago','America/New_York',
+          'America/Toronto','America/Mexico_City','America/Sao_Paulo',
+          'Europe/London','Europe/Paris','Europe/Berlin','Europe/Moscow',
+          'Asia/Dubai','Asia/Kolkata','Asia/Bangkok','Asia/Shanghai','Asia/Tokyo','Asia/Seoul','Asia/Singapore',
+          'Australia/Sydney','Pacific/Auckland'
+        ];
+      }
+
+      function buildTzSelect(){
+        const zones = getTimeZones();
+        tzSelect.innerHTML = '';
+        for (const z of zones) {
+          const opt = document.createElement('option');
+          opt.value = z;
+          opt.textContent = z;
+          tzSelect.appendChild(opt);
+        }
+        // If currentTz not in list (possible with fallback), add it
+        if (![...tzSelect.options].some(o => o.value === currentTz)) {
+          const opt = document.createElement('option');
+          opt.value = currentTz;
+          opt.textContent = currentTz;
+          tzSelect.insertBefore(opt, tzSelect.firstChild);
+        }
+        tzSelect.value = currentTz;
+      }
+
+      buildTzSelect();
+
+      // Click date line to toggle timezone panel
+      dateLine.addEventListener('click', () => {
+        tzPanel.classList.toggle('open');
+      });
+
+      tzSelect.addEventListener('change', () => {
+        currentTz = tzSelect.value;
+        localStorage.setItem('flipclock.tz', currentTz);
+        // Force refresh
+        lastHH = lastMM = lastAM = null;
+        lastDate = null;
+        init();
+        update();
+      });
+
+      // === Digits fill ~90% of EACH PANEL ===
+      // Colon dots scale from digit font (keeps them proportional).
+      function updateSizes(){
+        const hH = panelH.clientHeight, wH = panelH.clientWidth;
+        const hM = panelM.clientHeight, wM = panelM.clientWidth;
+
+        // 90% of panel height
+        const byHeightH = hH * 0.90;
+        const byHeightM = hM * 0.90;
+
+        // cap by width so two digits don't clip in narrow windows
+        const byWidthH = wH * 0.74;
+        const byWidthM = wM * 0.74;
+
+        const hFont = Math.max(24, Math.floor(Math.min(byHeightH, byWidthH)));
+        const mFont = Math.max(24, Math.floor(Math.min(byHeightM, byWidthM)));
+
+        document.documentElement.style.setProperty('--hFont', hFont + 'px');
+        document.documentElement.style.setProperty('--mFont', mFont + 'px');
+
+        // Colon dot sizing relative to digits
+        const dFont = Math.min(hFont, mFont);
+        const dot   = Math.max(6,  Math.floor(dFont * 0.16));
+        const gap   = Math.max(dot + 6, Math.floor(dFont * 0.28));
+
+        document.documentElement.style.setProperty('--dot', dot + 'px');
+        document.documentElement.style.setProperty('--dotGap', gap + 'px');
+      }
+
+      if ('ResizeObserver' in window) {
+        const ro = new ResizeObserver(updateSizes);
+        ro.observe(panelH);
+        ro.observe(panelM);
+      }
+      window.addEventListener('resize', updateSizes);
+      requestAnimationFrame(updateSizes);
+
+      // --- Time formatting in selected time zone ---
+      // Use Intl.DateTimeFormat + formatToParts for robust TZ handling.
+      function getParts(now){
+        const locale = 'en-US';
+
+        // 1) Time parts
+        const timeFmt = new Intl.DateTimeFormat(locale, {
+          timeZone: currentTz,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: !use24h
+        });
+
+        const timeParts = timeFmt.formatToParts(now);
+        const get = (type) => {
+          const p = timeParts.find(x => x.type === type);
+          return p ? p.value : '';
+        };
+
+        // hour is already 2-digit with hour:'2-digit'
+        const HH = get('hour');
+        const MM = get('minute');
+        const SS = get('second');
+        const dayPeriod = get('dayPeriod'); // AM/PM (only when hour12)
+
+        // 2) Date parts (weekday + yyyy-mm-dd)
+        const dateFmt = new Intl.DateTimeFormat(locale, {
+          timeZone: currentTz,
+          weekday: 'long',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        });
+
+        const dateParts = dateFmt.formatToParts(now);
+        const weekday = (dateParts.find(x => x.type === 'weekday') || {}).value || '';
+        const year = (dateParts.find(x => x.type === 'year') || {}).value || '';
+        const month = (dateParts.find(x => x.type === 'month') || {}).value || '';
+        const day = (dateParts.find(x => x.type === 'day') || {}).value || '';
+
+        return {
+          HH, MM, SS,
+          ampm: dayPeriod || '',
+          dateLine: `${weekday} ${year}-${month}-${day}`
+        };
+      }
+
+      // Flip logic
+      function doFlip(panel, baseEl, topEl, bottomEl, nextValue){
+        const curValue = baseEl.textContent;
+        if (curValue === nextValue) return;
+
+        topEl.textContent    = curValue;   // old flips down
+        bottomEl.textContent = nextValue;  // new flips up
+
+        panel.classList.remove('flipping');
+        void panel.offsetWidth; // restart animation reliably
+        panel.classList.add('flipping');
+
+        const done = () => {
+          baseEl.textContent = nextValue;
+          panel.classList.remove('flipping');
+          panel.removeEventListener('animationend', done, true);
+        };
+        panel.addEventListener('animationend', done, true);
+      }
+
+      let lastHH = null, lastMM = null, lastAM = null, lastDate = null;
+
+      function init(){
+        const now = new Date();
+        const p = getParts(now);
+
+        baseH.textContent = p.HH;
+        baseM.textContent = p.MM;
+
+        H_top.textContent = p.HH;
+        H_bottom.textContent = p.HH;
+        M_top.textContent = p.MM;
+        M_bottom.textContent = p.MM;
+
+        lastHH = p.HH;
+        lastMM = p.MM;
+
+        // AM/PM
+        if (!use24h) {
+          ampmEl.style.visibility = 'visible';
+          ampmEl.textContent = p.ampm || 'AM';
+          lastAM = ampmEl.textContent;
+        } else {
+          ampmEl.style.visibility = 'hidden';
+          lastAM = '';
+        }
+
+        // Date
+        dateText.textContent = p.dateLine;
+        lastDate = p.dateLine;
+      }
+
+      function update(){
+        const now = new Date();
+        const p = getParts(now);
+
+        // blink colon dots each second (dim on even seconds)
+        const secNum = parseInt(p.SS, 10);
+        colonDots.classList.toggle('off', (secNum % 2) === 0);
+
+        if (p.HH !== lastHH){
+          doFlip(panelH, baseH, H_top, H_bottom, p.HH);
+          lastHH = p.HH;
+        }
+
+        if (p.MM !== lastMM){
+          doFlip(panelM, baseM, M_top, M_bottom, p.MM);
+          lastMM = p.MM;
+        }
+
+        if (!use24h) {
+          const ap = p.ampm || ampmEl.textContent;
+          if (ap !== lastAM) {
+            ampmEl.textContent = ap;
+            lastAM = ap;
+          }
+          ampmEl.style.visibility = 'visible';
+        } else {
+          ampmEl.style.visibility = 'hidden';
+        }
+
+        if (p.dateLine !== lastDate) {
+          dateText.textContent = p.dateLine;
+          lastDate = p.dateLine;
+        }
+      }
+
+      // Tick aligned to second boundary
+      function schedule(){
+        const ms = 1000 - new Date().getMilliseconds();
+        setTimeout(() => { update(); schedule(); }, ms);
+      }
+
+      // HUD controls
+      toggleBtn.addEventListener('click', () => {
+        use24h = !use24h;
+        toggleBtn.textContent = use24h ? '24h' : '12h';
+        lastHH = lastMM = lastAM = lastDate = null;
+        init();
+        update();
+      });
+
+      fsBtn.addEventListener('click', async () => {
+        try{
+          if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch(e){}
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden){
+          lastHH = lastMM = lastAM = lastDate = null;
+          init();
+          update();
+        }
+      });
+
+      // Start
+      init();
+      update();
+      schedule();
+    })();
+  </script>
+</body>
+</html>

@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your IP Address</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IP Dashboard</title>
 
   <style>
     body {
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -19,26 +19,27 @@
 
     .container {
       text-align: center;
-      padding: 50px;
+      padding: 40px;
       border-radius: 16px;
-      background: rgba(22, 27, 34, 0.85);
-      box-shadow: 0 0 40px rgba(88, 166, 255, 0.15);
-      backdrop-filter: blur(10px);
+      background: rgba(22, 27, 34, 0.9);
+      box-shadow: 0 0 50px rgba(88, 166, 255, 0.15);
+      backdrop-filter: blur(12px);
+      max-width: 500px;
+      width: 90%;
     }
 
     h1 {
-      font-weight: 400;
-      margin-bottom: 25px;
       color: #8b949e;
-      letter-spacing: 1px;
+      font-weight: 400;
+      margin-bottom: 20px;
     }
 
     #ip {
-      font-size: 3rem;
+      font-size: 2.8rem;
       font-weight: bold;
       color: #58a6ff;
       letter-spacing: 3px;
-      text-shadow: 0 0 10px rgba(88, 166, 255, 0.7);
+      text-shadow: 0 0 12px rgba(88,166,255,0.8);
       opacity: 0;
       transform: translateY(10px);
       transition: all 0.6s ease;
@@ -49,44 +50,45 @@
       transform: translateY(0);
     }
 
-    #location {
-      margin-top: 15px;
-      font-size: 1.2rem;
+    .info {
+      margin-top: 12px;
+      font-size: 1.05rem;
       color: #8b949e;
     }
 
     button {
-      margin-top: 25px;
-      padding: 10px 18px;
+      margin-top: 20px;
+      padding: 10px 16px;
       border: none;
       border-radius: 8px;
       background: #238636;
       color: white;
-      font-size: 0.95rem;
       cursor: pointer;
-      transition: all 0.2s ease;
     }
 
     button:hover {
       background: #2ea043;
-      transform: scale(1.05);
     }
 
-    .loading {
-      color: #8b949e;
-      font-size: 1.2rem;
-    }
-
-    .copied {
-      margin-top: 10px;
+    #copiedMsg {
       font-size: 0.9rem;
       color: #3fb950;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.3s;
+      margin-top: 8px;
     }
 
-    .copied.show {
+    #copiedMsg.show {
       opacity: 1;
+    }
+
+    iframe {
+      margin-top: 20px;
+      width: 100%;
+      height: 250px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
   </style>
 </head>
@@ -95,11 +97,16 @@
   <div class="container">
     <h1>Your Public IP</h1>
 
-    <div id="ip" class="loading">Loading...</div>
-    <div id="location"></div>
+    <div id="ip">Loading...</div>
+
+    <div id="location" class="info"></div>
+    <div id="isp" class="info"></div>
+    <div id="vpn" class="info"></div>
 
     <button onclick="copyIP()">Copy IP</button>
-    <div id="copiedMsg" class="copied">Copied!</div>
+    <div id="copiedMsg">Copied!</div>
+
+    <iframe id="map"></iframe>
   </div>
 
   <script>
@@ -107,24 +114,45 @@
 
     async function fetchData() {
       try {
-        // Fetch IP
+        // Get IP
         const ipRes = await fetch('https://api.ipify.org?format=json');
         const ipData = await ipRes.json();
         currentIP = ipData.ip;
 
-        // Fetch location
-        const locRes = await fetch(`https://ipapi.co/${currentIP}/json/`);
-        const locData = await locRes.json();
+        // Get full IP info
+        const res = await fetch(`https://ipapi.co/${currentIP}/json/`);
+        const data = await res.json();
 
+        // Show IP with animation
         const ipEl = document.getElementById('ip');
         ipEl.textContent = currentIP;
         ipEl.classList.add('show');
 
+        // Location
         document.getElementById('location').textContent =
-          `${locData.city || ''}, ${locData.country_name || ''}`;
+          `📍 ${data.city}, ${data.country_name}`;
+
+        // ISP
+        document.getElementById('isp').textContent =
+          `📡 ISP: ${data.org || 'Unknown'}`;
+
+        // VPN / Proxy detection (basic)
+        let vpnText = 'No';
+        if (data.proxy || data.vpn || data.tor) {
+          vpnText = 'Yes ⚠️';
+        }
+
+        document.getElementById('vpn').textContent =
+          `🔐 VPN/Proxy: ${vpnText}`;
+
+        // Map (OpenStreetMap embed)
+        if (data.latitude && data.longitude) {
+          const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${data.longitude-0.05}%2C${data.latitude-0.05}%2C${data.longitude+0.05}%2C${data.latitude+0.05}&layer=mapnik&marker=${data.latitude}%2C${data.longitude}`;
+          document.getElementById('map').src = mapUrl;
+        }
 
       } catch (err) {
-        document.getElementById('ip').textContent = 'Error fetching data';
+        document.getElementById('ip').textContent = 'Error loading data';
       }
     }
 

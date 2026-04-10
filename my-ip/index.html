@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your IP Address</title>
+
   <style>
     body {
       margin: 0;
@@ -11,56 +13,133 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0d1117;
+      background: radial-gradient(circle at top, #0d1117, #020409);
       color: #c9d1d9;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .container {
       text-align: center;
-      padding: 40px;
-      border-radius: 12px;
-      background: #161b22;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      padding: 50px;
+      border-radius: 16px;
+      background: rgba(22, 27, 34, 0.85);
+      box-shadow: 0 0 40px rgba(88, 166, 255, 0.15);
+      backdrop-filter: blur(10px);
     }
 
     h1 {
-      font-weight: normal;
-      margin-bottom: 20px;
+      font-weight: 400;
+      margin-bottom: 25px;
       color: #8b949e;
+      letter-spacing: 1px;
     }
 
     #ip {
-      font-size: 2.5rem;
+      font-size: 3rem;
       font-weight: bold;
       color: #58a6ff;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
+      text-shadow: 0 0 10px rgba(88, 166, 255, 0.7);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.6s ease;
+    }
+
+    #ip.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #location {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      color: #8b949e;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      background: #238636;
+      color: white;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background: #2ea043;
+      transform: scale(1.05);
     }
 
     .loading {
       color: #8b949e;
       font-size: 1.2rem;
     }
+
+    .copied {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #3fb950;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .copied.show {
+      opacity: 1;
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Your Public IP</h1>
+
     <div id="ip" class="loading">Loading...</div>
+    <div id="location"></div>
+
+    <button onclick="copyIP()">Copy IP</button>
+    <div id="copiedMsg" class="copied">Copied!</div>
   </div>
 
   <script>
-    async function fetchIP() {
+    let currentIP = '';
+
+    async function fetchData() {
       try {
-        const res = await fetch('https://api.ipify.org?format=json');
-        const data = await res.json();
-        document.getElementById('ip').textContent = data.ip;
+        // Fetch IP
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipRes.json();
+        currentIP = ipData.ip;
+
+        // Fetch location
+        const locRes = await fetch(`https://ipapi.co/${currentIP}/json/`);
+        const locData = await locRes.json();
+
+        const ipEl = document.getElementById('ip');
+        ipEl.textContent = currentIP;
+        ipEl.classList.add('show');
+
+        document.getElementById('location').textContent =
+          `${locData.city || ''}, ${locData.country_name || ''}`;
+
       } catch (err) {
-        document.getElementById('ip').textContent = 'Unable to fetch IP';
+        document.getElementById('ip').textContent = 'Error fetching data';
       }
     }
 
-    fetchIP();
+    function copyIP() {
+      if (!currentIP) return;
+
+      navigator.clipboard.writeText(currentIP).then(() => {
+        const msg = document.getElementById('copiedMsg');
+        msg.classList.add('show');
+        setTimeout(() => msg.classList.remove('show'), 1500);
+      });
+    }
+
+    fetchData();
   </script>
 </body>
 </html>

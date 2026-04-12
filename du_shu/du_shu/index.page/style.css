@@ -1,0 +1,142 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    font-family: ToneOZ-Pinyin-Kai-Simplified, BeiAn-Kai, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    overflow: auto;
+    background-color: #0b0f14;
+    color: #e6edf3;
+}
+
+/* HEADINGS */
+h1 {
+    font-size: 2em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.description {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #9da7b3;
+}
+
+/* LIST */
+ul {
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+}
+
+/* 🔥 FORCE DARK ROWS */
+li.odd,
+tr.odd,
+tr:nth-child(odd) {
+    background-color: #0f141b !important;
+}
+
+li.even,
+tr.even,
+tr:nth-child(even) {
+    background-color: #151b23 !important;
+}
+
+/* 🔥 ENSURE TEXT ALWAYS READABLE */
+li,
+tr,
+td,
+th {
+    color: #e6edf3 !important;
+}
+
+/* Hover */
+li:hover,
+tr:hover {
+    background-color: #1c2530 !important;
+}
+
+/* LINKS */
+a {
+    text-decoration: none;
+    color: #79a6ff;
+    display: block;
+}
+
+/* Cleaner hover */
+a:hover {
+    color: #ffffff;
+    background-color: transparent;
+}
+
+/* NUMBERS */
+.number {
+    color: #4c7dff;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 90%;
+    width: 90%;
+    text-align: justify;
+}
+
+/* CONTENT (single column reading mode) */
+.content {
+    column-count: 1;
+    column-gap: 0px;
+    color: #e6edf3;
+}
+
+/* Paragraph styling for readability */
+.content p {
+    text-indent: 4em;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* COLUMN OPTION */
+.column-option {
+    margin-bottom: 5px;
+    text-align: center;
+    color: #9da7b3;
+}
+
+/* 🔥 TABLE HEADER FIX (if used) */
+th {
+    background-color: #0f3a66 !important;
+    color: #e6edf3 !important;
+}
+
+/* 🔥 REMOVE ANY LIGHT CELL BACKGROUNDS */
+td {
+    background-color: transparent !important;
+}
+
+/* 🔥 CONTENT LINKS (reading mode) */
+.content a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 0;
+}
+
+/* subtle hover for reading */
+.content a:hover {
+    text-decoration: underline;
+    color: #9ecbff;
+}

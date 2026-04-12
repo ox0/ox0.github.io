@@ -1,0 +1,50 @@
+/* DEFAULT = DARK */
+:root {
+    --bg: #0b0f14;
+    --text: #e6edf3;
+    --muted: #9da7b3;
+
+    --row-odd: #0f141b;
+    --row-even: #151b23;
+    --row-hover: #1c2530;
+
+    --link: #79a6ff;
+    --link-hover: #ffffff;
+
+    --header-bg: #0f3a66;
+    --number: #4c7dff;
+}
+
+/* SEPIA */
+body.sepia {
+    --bg: #f4ecd8;
+    --text: #3b2f2f;
+    --muted: #7a6a58;
+
+    --row-odd: #f0e6cf;
+    --row-even: #e8dcc2;
+    --row-hover: #ddd0b3;
+
+    --link: #8b5e34;
+    --link-hover: #5a3b1e;
+
+    --header-bg: #d6c3a3;
+    --number: #a06b3b;
+}
+
+/* LIGHT */
+body.light {
+    --bg: #f0f8ff;
+    --text: #222;
+    --muted: #555;
+
+    --row-odd: #ffffff;
+    --row-even: #f2f2f2;
+    --row-hover: #e6e6e6;
+
+    --link: #3366cc;
+    --link-hover: #000;
+
+    --header-bg: #0f3a66;
+    --number: #3366cc;
+}

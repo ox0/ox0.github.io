@@ -1,0 +1,126 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    font-family: ToneOZ-Pinyin-Kai-Simplified, BeiAn-Kai, Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 100vh;
+    overflow: auto;
+    background-color: #0b0f14;
+    color: #e6edf3;
+}
+
+/* HEADINGS */
+h1 {
+    font-size: 2em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.description {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #9da7b3;
+}
+
+/* LIST */
+ul {
+    text-align: left;
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin: 0;
+}
+
+/* 🔥 FORCE DARK ROWS */
+li.odd,
+tr.odd,
+tr:nth-child(odd) {
+    background-color: #0f141b !important;
+}
+
+li.even,
+tr.even,
+tr:nth-child(even) {
+    background-color: #151b23 !important;
+}
+
+/* 🔥 FIX TEXT INSIDE ROWS */
+li,
+tr,
+td,
+th {
+    color: #e6edf3 !important;
+}
+
+/* Hover effect */
+li:hover,
+tr:hover {
+    background-color: #1c2530 !important;
+}
+
+/* LINKS */
+a {
+    text-decoration: none;
+    color: #79a6ff;
+    display: block;
+}
+
+/* REMOVE bright hover box */
+a:hover {
+    color: #ffffff;
+    background-color: transparent;
+}
+
+/* NUMBERS */
+.number {
+    color: #4c7dff;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* CONTAINER */
+.container {
+    max-width: 90%;
+    width: 90%;
+    text-align: justify;
+}
+
+/* CONTENT */
+.content {
+    column-count: 3;
+    column-gap: 40px;
+    white-space: pre-wrap;
+    color: #e6edf3;
+}
+
+.content p {
+    text-indent: 0em;
+    margin: 0;
+}
+
+/* COLUMN OPTION */
+.column-option {
+    margin-bottom: 50px;
+    text-align: center;
+    color: #9da7b3;
+}
+
+/* 🔥 TABLE HEADER (your blue bar) */
+th {
+    background-color: #0f3a66 !important;
+    color: #e6edf3 !important;
+}
+
+/* 🔥 REMOVE ANY WHITE CELLS */
+td {
+    background-color: transparent !important;
+}

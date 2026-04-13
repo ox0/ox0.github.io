@@ -1,111 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Temperature Converter</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #0f172a;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      color: #e2e8f0;
-    }
+<meta charset="UTF-8">
+<title>Temperature Converter</title>
 
-    .container {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      width: 300px;
-      text-align: center;
-    }
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-    h1 {
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #e2e8f0;
+  }
 
-    input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      margin-bottom: 15px;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-size: 16px;
-    }
+  .card {
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 16px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    animation: fadeIn 0.6s ease;
+  }
 
-    select {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      margin-bottom: 15px;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-size: 16px;
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #38bdf8;
-      color: #0f172a;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+  h1 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
 
-    button:hover {
-      background: #0ea5e9;
-    }
+  input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(0,0,0,0.4);
+    color: #e2e8f0;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: 0.2s;
+  }
 
-    .result {
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: 500;
-    }
-  </style>
+  input:focus {
+    background: rgba(0,0,0,0.6);
+  }
+
+  /* Toggle Switch */
+  .toggle {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 999px;
+    margin-bottom: 20px;
+    cursor: pointer;
+  }
+
+  .toggle span {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    z-index: 2;
+    transition: 0.3s;
+  }
+
+  .toggle .left {
+    left: 0;
+  }
+
+  .toggle .right {
+    right: 0;
+  }
+
+  .slider {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background: #38bdf8;
+    border-radius: 999px;
+    transition: 0.3s ease;
+    z-index: 1;
+  }
+
+  .toggle.active .slider {
+    transform: translateX(100%);
+  }
+
+  .result {
+    font-size: 20px;
+    font-weight: 500;
+    min-height: 28px;
+    transition: 0.2s;
+  }
+
+  .unit-label {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-bottom: 5px;
+  }
+</style>
 </head>
+
 <body>
 
-<div class="container">
-  <h1>Temp Converter</h1>
-  
-  <input type="number" id="inputValue" placeholder="Enter temperature">
+<div class="card">
+  <h1>Temperature Converter</h1>
 
-  <select id="conversionType">
-    <option value="cToF">Celsius → Fahrenheit</option>
-    <option value="fToC">Fahrenheit → Celsius</option>
-  </select>
+  <div class="unit-label" id="label">Celsius → Fahrenheit</div>
 
-  <button onclick="convert()">Convert</button>
+  <input type="number" id="inputValue" placeholder="Enter value" />
+
+  <div class="toggle" id="toggle">
+    <div class="slider"></div>
+    <span class="left">°C → °F</span>
+    <span class="right">°F → °C</span>
+  </div>
 
   <div class="result" id="result"></div>
 </div>
 
 <script>
+  const input = document.getElementById("inputValue");
+  const resultDiv = document.getElementById("result");
+  const toggle = document.getElementById("toggle");
+  const label = document.getElementById("label");
+
+  let mode = "cToF";
+
   function convert() {
-    const value = parseFloat(document.getElementById("inputValue").value);
-    const type = document.getElementById("conversionType").value;
-    const resultDiv = document.getElementById("result");
+    const value = parseFloat(input.value);
 
     if (isNaN(value)) {
-      resultDiv.textContent = "Please enter a valid number.";
+      resultDiv.textContent = "";
       return;
     }
 
     let result;
 
-    if (type === "cToF") {
+    if (mode === "cToF") {
       result = (value * 9/5) + 32;
       resultDiv.textContent = `${value}°C = ${result.toFixed(2)}°F`;
     } else {
@@ -113,6 +170,24 @@
       resultDiv.textContent = `${value}°F = ${result.toFixed(2)}°C`;
     }
   }
+
+  // Live conversion
+  input.addEventListener("input", convert);
+
+  // Toggle switch
+  toggle.addEventListener("click", () => {
+    toggle.classList.toggle("active");
+
+    if (mode === "cToF") {
+      mode = "fToC";
+      label.textContent = "Fahrenheit → Celsius";
+    } else {
+      mode = "cToF";
+      label.textContent = "Celsius → Fahrenheit";
+    }
+
+    convert();
+  });
 </script>
 
 </body>

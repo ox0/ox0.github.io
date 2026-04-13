@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Temperature Converter</title>
+<title>Smart Temperature Converter</title>
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
 
   body {
     margin: 0;
@@ -22,7 +20,7 @@
 
   .card {
     backdrop-filter: blur(16px);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
     padding: 30px;
     border-radius: 16px;
@@ -33,20 +31,13 @@
   }
 
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   h1 {
     font-size: 20px;
     margin-bottom: 20px;
-    font-weight: 600;
   }
 
   input {
@@ -59,14 +50,8 @@
     color: #e2e8f0;
     font-size: 16px;
     margin-bottom: 20px;
-    transition: 0.2s;
   }
 
-  input:focus {
-    background: rgba(0,0,0,0.6);
-  }
-
-  /* Toggle Switch */
   .toggle {
     position: relative;
     width: 100%;
@@ -86,16 +71,10 @@
     justify-content: center;
     font-size: 14px;
     z-index: 2;
-    transition: 0.3s;
   }
 
-  .toggle .left {
-    left: 0;
-  }
-
-  .toggle .right {
-    right: 0;
-  }
+  .toggle .left { left: 0; }
+  .toggle .right { right: 0; }
 
   .slider {
     position: absolute;
@@ -113,15 +92,13 @@
 
   .result {
     font-size: 20px;
-    font-weight: 500;
     min-height: 28px;
-    transition: 0.2s;
   }
 
-  .unit-label {
-    font-size: 13px;
-    opacity: 0.7;
-    margin-bottom: 5px;
+  .hint {
+    font-size: 12px;
+    opacity: 0.6;
+    margin-top: 10px;
   }
 </style>
 </head>
@@ -129,11 +106,9 @@
 <body>
 
 <div class="card">
-  <h1>Temperature Converter</h1>
+  <h1>Smart Converter</h1>
 
-  <div class="unit-label" id="label">Celsius → Fahrenheit</div>
-
-  <input type="number" id="inputValue" placeholder="Enter value" />
+  <input type="text" id="inputValue" placeholder="e.g. 32F or 0C or 100">
 
   <div class="toggle" id="toggle">
     <div class="slider"></div>
@@ -142,50 +117,69 @@
   </div>
 
   <div class="result" id="result"></div>
+  <div class="hint">Tip: Type 32F or 0C for auto-detect</div>
 </div>
 
 <script>
   const input = document.getElementById("inputValue");
   const resultDiv = document.getElementById("result");
   const toggle = document.getElementById("toggle");
-  const label = document.getElementById("label");
 
   let mode = "cToF";
 
-  function convert() {
-    const value = parseFloat(input.value);
+  function parseInput(value) {
+    value = value.trim().toLowerCase();
 
-    if (isNaN(value)) {
+    const match = value.match(/^(-?\d+(\.\d+)?)([cf])?$/);
+
+    if (!match) return null;
+
+    return {
+      number: parseFloat(match[1]),
+      unit: match[3] || null
+    };
+  }
+
+  function convert() {
+    const parsed = parseInput(input.value);
+
+    if (!parsed) {
       resultDiv.textContent = "";
       return;
     }
 
+    let { number, unit } = parsed;
+
     let result;
 
+    // Auto-detect overrides toggle
+    if (unit === "c") {
+      result = (number * 9/5) + 32;
+      resultDiv.textContent = `${number}°C = ${result.toFixed(2)}°F`;
+      return;
+    }
+
+    if (unit === "f") {
+      result = (number - 32) * 5/9;
+      resultDiv.textContent = `${number}°F = ${result.toFixed(2)}°C`;
+      return;
+    }
+
+    // No unit → use toggle mode
     if (mode === "cToF") {
-      result = (value * 9/5) + 32;
-      resultDiv.textContent = `${value}°C = ${result.toFixed(2)}°F`;
+      result = (number * 9/5) + 32;
+      resultDiv.textContent = `${number}°C = ${result.toFixed(2)}°F`;
     } else {
-      result = (value - 32) * 5/9;
-      resultDiv.textContent = `${value}°F = ${result.toFixed(2)}°C`;
+      result = (number - 32) * 5/9;
+      resultDiv.textContent = `${number}°F = ${result.toFixed(2)}°C`;
     }
   }
 
-  // Live conversion
   input.addEventListener("input", convert);
 
-  // Toggle switch
   toggle.addEventListener("click", () => {
     toggle.classList.toggle("active");
-
-    if (mode === "cToF") {
-      mode = "fToC";
-      label.textContent = "Fahrenheit → Celsius";
-    } else {
-      mode = "cToF";
-      label.textContent = "Celsius → Fahrenheit";
-    }
-
+    mode = (mode === "cToF") ? "fToC" : "cToF";
     convert();
   });
 </script>

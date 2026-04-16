@@ -41,15 +41,19 @@ body {
 }
 
 .lego-table td {
-  padding: 18px 10px;
+  padding: 10px 10px;   /* reduced from 18px → 10px */
   border-bottom: 1px solid rgba(255,255,255,0.04);
   color: #d1d5db;
-  font-size: 15px;
+  font-size: 14px;      /* slightly tighter text */
 }
 
 /* Row hover (very subtle like al-folio) */
+.lego-table tr {
+  transition: background-color 0.15s ease;
+}
+
 .lego-table tr:hover {
-  background-color: rgba(255,255,255,0.025);
+  background-color: rgba(255,255,255,0.035);
 }
 
 /* Links */

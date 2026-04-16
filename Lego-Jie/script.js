@@ -45,11 +45,15 @@ function enableHoverPreview() {
 
   let hideTimeout = null;
 
-  document.querySelectorAll(".set-name").forEach(el => {
-    el.addEventListener("mouseenter", () => {
+  document.querySelectorAll("#lego-table tr").forEach(row => {
+    const imgSrc = row.querySelector(".set-name")?.dataset.img;
+
+    if (!imgSrc) return;
+
+    row.addEventListener("mouseenter", () => {
       clearTimeout(hideTimeout);
 
-      img.src = el.dataset.img;
+      img.src = imgSrc;
       preview.style.display = "block";
 
       requestAnimationFrame(() => {
@@ -57,7 +61,7 @@ function enableHoverPreview() {
       });
     });
 
-    el.addEventListener("mousemove", (e) => {
+    row.addEventListener("mousemove", (e) => {
       const padding = 24;
       const previewWidth = 360;
       const previewHeight = 360;
@@ -65,7 +69,7 @@ function enableHoverPreview() {
       let x = e.clientX + 24;
       let y = e.clientY + 24;
 
-      // smart positioning
+      // Smart edge detection
       if (x + previewWidth > window.innerWidth) {
         x = e.clientX - previewWidth - padding;
       }
@@ -78,15 +82,14 @@ function enableHoverPreview() {
       preview.style.top = y + "px";
     });
 
-    el.addEventListener("mouseleave", () => {
-      // 🪄 Delay prevents flicker
+    row.addEventListener("mouseleave", () => {
       hideTimeout = setTimeout(() => {
         preview.classList.remove("visible");
 
         setTimeout(() => {
           preview.style.display = "none";
         }, 180);
-      }, 120); // ← key fix
+      }, 120);
     });
   });
 }

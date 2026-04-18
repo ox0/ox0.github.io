@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Offline Markdown Pro+</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="prism.css">
+<link rel="stylesheet" href="prism.css">
+<link rel="stylesheet" href="prism-line-numbers.css">
+
+</head>
+<body>
+
+<header>
+    <button id="toggleTheme">🌙 Theme</button>
+    <button id="openFile">📂 Open</button>
+    <button id="saveFile">💾 Save</button>
+    <button id="exportHTML">📤 Export HTML</button>
+    <button id="toggleSearch">🔍 Search</button>
+</header>
+
+<div class="main">
+    <aside id="outline"></aside>
+
+    <div class="container">
+        <textarea id="editor"></textarea>
+        <div id="divider"></div>
+        <div id="preview"></div>
+    </div>
+</div>
+
+<!-- Search Panel -->
+<div id="searchPanel" class="hidden">
+    <input id="searchInput" placeholder="Find">
+    <input id="replaceInput" placeholder="Replace">
+    <button id="findNext">Next</button>
+    <button id="replaceOne">Replace</button>
+    <button id="replaceAll">All</button>
+</div>
+
+<input type="file" id="fileInput" hidden>
+
+<script src="marked.min.js"></script>
+<script src="script.js"></script>
+<script src="prism.js"></script>
+<script src="prism-line-numbers.js"></script>
+<script src="prism-javascript.js"></script>
+<script src="prism-css.js"></script>
+<script src="prism-markup.js"></script>
+
+</body>
+</html>

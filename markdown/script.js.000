@@ -163,51 +163,17 @@ editor.addEventListener("input", updatePreview);
 //////////////////////////////////////////////////
 function generateOutline() {
     outline.innerHTML = "";
-
     const headings = preview.querySelectorAll("h1, h2, h3");
 
-    headings.forEach((h, index) => {
-        // create stable id
-        const id = "heading-" + index;
-        h.id = id;
-
+    headings.forEach(h => {
         const div = document.createElement("div");
         div.textContent = h.textContent;
         div.style.marginLeft = (parseInt(h.tagName[1]) - 1) * 10 + "px";
 
-        div.onclick = () => scrollToHeading(id);
+        div.onclick = () => h.scrollIntoView({ behavior: "smooth" });
 
         outline.appendChild(div);
     });
-}
-
-function scrollToHeading(id) {
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    const offset = target.offsetTop;
-
-    preview.scrollTo({
-        top: offset - 10, // small padding
-        behavior: "smooth"
-    });
-}
-
-function scrollToHeading(id) {
-    const target = document.getElementById(id);
-    if (!target) return;
-
-    preview.scrollTo({
-        top: target.offsetTop - 10,
-        behavior: "smooth"
-    });
-
-    // highlight
-    preview.querySelectorAll("h1, h2, h3").forEach(h => {
-        h.style.background = "";
-    });
-
-    target.style.background = "rgba(255,255,0,0.2)";
 }
 
 //////////////////////////////////////////////////

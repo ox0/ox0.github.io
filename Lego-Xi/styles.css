@@ -1,0 +1,115 @@
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+  background: linear-gradient(90deg, #0b0f19 0%, #111827 100%);
+  color: #e5e7eb;
+}
+
+/* Layout */
+.container {
+  max-width: 1100px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+/* Title */
+.title {
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #9ca3af;
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+
+/* Table */
+.lego-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lego-table th {
+  text-align: left;
+  font-weight: 600;
+  color: #f9fafb;
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.lego-table td {
+  padding: 10px 10px;   /* reduced from 18px → 10px */
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: #d1d5db;
+  font-size: 14px;      /* slightly tighter text */
+}
+
+/* Row hover (very subtle like al-folio) */
+.lego-table tr {
+  transition: background-color 0.15s ease;
+}
+
+.lego-table tr:hover {
+  background-color: rgba(255,255,255,0.035);
+}
+
+/* Links */
+a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Right align */
+.right {
+  text-align: right;
+}
+
+/* Set name hover interaction */
+.set-name {
+  cursor: pointer;
+  color: #60a5fa;
+}
+
+.set-name:hover {
+  color: #93c5fd;
+}
+
+/* === IMAGE PREVIEW (ENHANCED) === */
+.image-preview {
+  position: fixed;
+  display: none;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.image-preview.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.image-preview img {
+  width: 740px;
+  max-height: 540px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #0b0f19;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.65);
+  transition: transform 0.25s ease;
+}
+
+/* 🔍 Zoom effect */
+.image-preview img:hover {
+  transform: scale(1.08);
+}

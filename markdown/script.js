@@ -2,84 +2,6 @@ const editor = document.getElementById("editor");
 const preview = document.getElementById("preview");
 const outline = document.getElementById("outline");
 
-let isSyncing = false;
-
-
-
-let lastHTML = "";
-function updatePreview() {
-    const newHTML = marked.parse(editor.value);
-
-    if (newHTML === lastHTML) return; // ✅ no change
-
-    lastHTML = newHTML;
-
-    preview.innerHTML = newHTML;
-
-    preview.querySelectorAll("pre").forEach(pre => {
-        pre.classList.add("line-numbers");
-    });
-
-    Prism.highlightAll();
-    enhanceCodeBlocks();
-    generateOutline();
-}
-
-function getCursorRatio() {
-    const text = editor.value;
-    const cursorPos = editor.selectionStart;
-
-    return cursorPos / text.length;
-}
-
-function scrollPreviewToCursor() {
-    const ratio = getCursorRatio();
-
-    const target = preview.scrollHeight * ratio;
-    preview.scrollTop = target;
-}
-
-// Sync when typing or clicking
-editor.addEventListener("keyup", scrollPreviewToCursor);
-editor.addEventListener("click", scrollPreviewToCursor);
-
-
-
-
-
-
-// Editor → Preview
-editor.addEventListener("scroll", () => {
-    if (isSyncing) return;
-    isSyncing = true;
-
-    const ratio = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
-    preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
-
-    isSyncing = false;
-});
-
-// Preview → Editor
-preview.addEventListener("scroll", () => {
-    if (isSyncing) return;
-    isSyncing = true;
-
-    const ratio = preview.scrollTop / (preview.scrollHeight - preview.clientHeight);
-    editor.scrollTop = ratio * (editor.scrollHeight - editor.clientHeight);
-
-    isSyncing = false;
-});
-
-let debounceTimer;
-
-editor.addEventListener("input", () => {
-    clearTimeout(debounceTimer);
-
-    debounceTimer = setTimeout(() => {
-        updatePreview();
-    }, 150); // tweak: 100–300ms
-});
-
 //////////////////////////////////////////////////
 // MARKDOWN + SYNTAX HIGHLIGHT
 //////////////////////////////////////////////////
@@ -89,34 +11,27 @@ marked.setOptions({
     langPrefix: 'language-' // 👈 IMPORTANT for Prism
 });
 
-let lastValue = "";
-
 function updatePreview() {
-    const scrollPos = preview.scrollTop;
-
     preview.innerHTML = marked.parse(editor.value);
 
+    // Add line numbers
     preview.querySelectorAll("pre").forEach(pre => {
         pre.classList.add("line-numbers");
     });
 
-    Prism.highlightAll();
-    enhanceCodeBlocks();
-    generateOutline();
+    Prism.highlightAll();   // 👈 THIS is the real highlighter
 
-    preview.scrollTop = scrollPos; // restore scroll
+    enhanceCodeBlocks();    // copy button + badge
+    generateOutline();
 }
 
 function enhanceCodeBlocks() {
     preview.querySelectorAll("pre").forEach(pre => {
-
-        // ✅ already processed → skip
-        if (pre.dataset.enhanced === "true") return;
+        // avoid duplicating toolbar
+        if (pre.parentElement.classList.contains("code-wrapper")) return;
 
         const code = pre.querySelector("code");
         if (!code) return;
-
-        pre.dataset.enhanced = "true";
 
         // detect language
         const langClass = [...code.classList].find(c => c.startsWith("language-"));
@@ -143,13 +58,13 @@ function enhanceCodeBlocks() {
         button.onclick = () => {
             navigator.clipboard.writeText(code.innerText);
             button.textContent = "Copied!";
-            setTimeout(() => button.textContent = "Copy", 1200);
+            setTimeout(() => button.textContent = "Copy", 1500);
         };
 
         toolbar.appendChild(badge);
         toolbar.appendChild(button);
 
-        // insert wrapper safely
+        // wrap elements
         pre.parentNode.insertBefore(wrapper, pre);
         wrapper.appendChild(toolbar);
         wrapper.appendChild(pre);
@@ -163,52 +78,41 @@ editor.addEventListener("input", updatePreview);
 //////////////////////////////////////////////////
 function generateOutline() {
     outline.innerHTML = "";
-
     const headings = preview.querySelectorAll("h1, h2, h3");
 
-    headings.forEach((h, index) => {
-        // create stable id
-        const id = "heading-" + index;
-        h.id = id;
-
+    headings.forEach(h => {
         const div = document.createElement("div");
         div.textContent = h.textContent;
         div.style.marginLeft = (parseInt(h.tagName[1]) - 1) * 10 + "px";
 
-        div.onclick = () => scrollToHeading(id);
+        div.onclick = () => h.scrollIntoView({ behavior: "smooth" });
 
         outline.appendChild(div);
     });
 }
 
-function scrollToHeading(id) {
-    const target = document.getElementById(id);
-    if (!target) return;
 
-    const offset = target.offsetTop;
 
-    preview.scrollTo({
-        top: offset - 10, // small padding
-        behavior: "smooth"
-    });
-}
+document.addEventListener("dragover", function (e) {
+    e.preventDefault();
+});
 
-function scrollToHeading(id) {
-    const target = document.getElementById(id);
-    if (!target) return;
+document.addEventListener("drop", function (e) {
+    e.preventDefault();
 
-    preview.scrollTo({
-        top: target.offsetTop - 10,
-        behavior: "smooth"
-    });
+    const file = e.dataTransfer.files[0];
+    if (!file) return;
 
-    // highlight
-    preview.querySelectorAll("h1, h2, h3").forEach(h => {
-        h.style.background = "";
-    });
+    const reader = new FileReader();
+    reader.onload = function (event) {
+        editor.value = event.target.result;
+        updatePreview(); // replace with your actual preview update function
+    };
+    reader.readAsText(file);
+});
 
-    target.style.background = "rgba(255,255,0,0.2)";
-}
+
+
 
 //////////////////////////////////////////////////
 // THEME
@@ -222,21 +126,45 @@ document.getElementById("toggleTheme").onclick = () => {
 //////////////////////////////////////////////////
 document.getElementById("openFile").onclick = () => fileInput.click();
 
+let currentFileName = "doc.md";
+
 fileInput.onchange = () => {
+    const file = fileInput.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = e => {
         editor.value = e.target.result;
+        currentFileName = file.name || "doc.md";
         updatePreview();
     };
-    reader.readAsText(fileInput.files[0]);
+    reader.readAsText(file);
 };
 
 document.getElementById("saveFile").onclick = () => {
-    const blob = new Blob([editor.value]);
+    let fileName = prompt("Enter file name:", currentFileName);
+
+    if (fileName === null) return; // user clicked Cancel
+
+    fileName = fileName.trim();
+
+    if (!fileName) {
+        fileName = currentFileName || "doc.md";
+    }
+
+    if (!fileName.toLowerCase().endsWith(".md")) {
+        fileName += ".md";
+    }
+
+    currentFileName = fileName;
+
+    const blob = new Blob([editor.value], { type: "text/markdown" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "doc.md";
+    a.download = fileName;
     a.click();
+
+    URL.revokeObjectURL(a.href);
 };
 
 //////////////////////////////////////////////////

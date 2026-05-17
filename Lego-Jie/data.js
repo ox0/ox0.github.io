@@ -1,5 +1,21 @@
 const yamlData = `
 lego_sets:
+  - set_number: "31380"
+    set_name: "Retro Gaming Console"
+    purchase_date: "2026-05-16"
+    price: "$24.99"
+    order: 18
+    url: "https://www.lego.com/en-ca/product/retro-gaming-console-31380"
+    image: "assets/legoj-image/31380.png"
+
+  - set_number: "10341"
+    set_name: "NASA Artemis Space Launch System"
+    purchase_date: "2025-07-31"
+    price: "$339.99"
+    order: 17
+    url: "https://www.lego.com/en-ca/product/nasa-artemis-space-launch-system-10341"
+    image: "assets/legoj-image/10341.png"
+
   - set_number: "2856755"
     set_name: "Standard small box of pieces - Multi-Purpose Rocket"
     purchase_date: "2025-02-08"
@@ -127,4 +143,5 @@ lego_sets:
     order: 1
     url: "https://www.lego.com/en-ca/product/cement-mixer-truck-60325"
     image: "assets/legoj-image/60325.png"
+
 `;

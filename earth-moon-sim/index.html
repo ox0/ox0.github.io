@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Earth Moon Sim</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="ui">
+
+  <button id="pauseBtn">Pause</button>
+
+  <button id="fullscreenBtn">
+    Fullscreen
+  </button>
+
+
+<label>
+  Date
+  <input type="range"
+         id="dateSlider"
+         min="0"
+         max="1000"
+         value="500">
+</label>
+
+
+  <label>
+    Speed
+    <input type="range"
+           id="speedSlider"
+           min="1"
+           max="500"
+           value="48">
+  </label>
+
+  <div id="timeDisplay"></div>
+
+</div>
+
+<canvas id="space"></canvas>
+
+<script type="module"
+        src="./js/main.js"></script>
+
+</body>
+</html>

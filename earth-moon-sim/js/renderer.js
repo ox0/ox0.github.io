@@ -1,0 +1,866 @@
+import { Camera } from './camera.js';
+import { Stars } from './stars.js';
+
+export class Renderer {
+
+  constructor(canvas) {
+
+    this.canvas = canvas;
+
+    this.ctx =
+      canvas.getContext('2d');
+
+    this.camera =
+      new Camera();
+
+    this.stars =
+      new Stars();
+
+    this.resize();
+
+    window.addEventListener(
+      'resize',
+      () => this.resize()
+    );
+  }
+
+  resize() {
+
+    this.canvas.width =
+      window.innerWidth;
+
+    this.canvas.height =
+      window.innerHeight;
+  }
+
+  render(physics) {
+
+    const ctx = this.ctx;
+
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+
+    // =================================================
+    // CLEAR
+    // =================================================
+
+    ctx.clearRect(0, 0, w, h);
+
+    ctx.fillStyle = '#020412';
+
+    ctx.fillRect(0, 0, w, h);
+
+    // =================================================
+    // CAMERA
+    // =================================================
+
+    ctx.save();
+
+    this.camera.apply(ctx, w, h);
+
+    // =================================================
+    // STARS
+    // =================================================
+
+    this.stars.draw(ctx);
+
+    // =================================================
+    // SUN GLOW
+    // =================================================
+
+    const sunX = -700;
+    const sunY = 0;
+
+    const glow =
+      ctx.createRadialGradient(
+        sunX,
+        sunY,
+        50,
+        sunX,
+        sunY,
+        700
+      );
+
+    glow.addColorStop(
+      0,
+      'rgba(255,220,120,0.55)'
+    );
+
+    glow.addColorStop(
+      1,
+      'rgba(255,220,120,0)'
+    );
+
+    ctx.fillStyle = glow;
+
+    ctx.fillRect(
+      -4000,
+      -4000,
+      8000,
+      8000
+    );
+
+    // =================================================
+    // SOLAR SYSTEM CENTER
+    // =================================================
+
+const solarX = sunX;
+const solarY = sunY;
+
+    // =================================================
+    // EARTH ORBIT
+    // =================================================
+
+    const earthOrbitRadius = 990;   // how far the Earth/Moon looks like from the Sun
+
+
+
+// =================================================
+// SEASON MARKERS
+// =================================================
+
+const daysInYear = 365.25;
+
+const drawOrbitMarker = (
+  dayOfYear,
+  color,
+  label
+) => {
+
+  const angle =
+    (dayOfYear / daysInYear)
+    * Math.PI * 2;
+
+  const x =
+    solarX +
+    Math.cos(angle)
+    * earthOrbitRadius;
+
+  const y =
+    solarY +
+    Math.sin(angle)
+    * earthOrbitRadius;
+
+  ctx.beginPath();
+
+  ctx.fillStyle = color;
+
+  ctx.arc(
+    x,
+    y,
+    8,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  ctx.fillStyle = 'white';
+
+  ctx.font = '18px Arial';
+
+  ctx.fillText(
+    label,
+    x + 15,
+    y
+  );
+};
+
+
+
+    ctx.beginPath();
+
+    ctx.strokeStyle =
+      'rgba(255,255,255,0.10)';
+
+    ctx.lineWidth = 1.5;
+
+    ctx.arc(
+      solarX,
+      solarY,
+      earthOrbitRadius,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+
+drawOrbitMarker(
+  80,
+  '#66ff66',
+  'Spring'
+);
+
+drawOrbitMarker(
+  172,
+  '#ffff66',
+  'Summer'
+);
+
+drawOrbitMarker(
+  266,
+  '#ff9966',
+  'Autumn'
+);
+
+drawOrbitMarker(
+  355,
+  '#66ccff',
+  'Winter'
+);
+
+
+    // =================================================
+    // EARTH POSITION
+    // =================================================
+
+    const earthX =
+      solarX +
+      Math.cos(
+        physics.earthOrbit
+      ) * earthOrbitRadius;
+
+    const earthY =
+      solarY +
+      Math.sin(
+        physics.earthOrbit
+      ) * earthOrbitRadius;
+
+
+const dayOfYear =
+  ((physics.currentDay % 365.25)
+   + 365.25)
+  % 365.25;
+
+let season = '';
+
+if (dayOfYear < 80) {
+  season = '❄️ Winter';
+}
+else if (dayOfYear < 172) {
+  season = '🌱 Spring';
+}
+else if (dayOfYear < 266) {
+  season = '☀️ Summer';
+}
+else if (dayOfYear < 355) {
+  season = '🍂 Autumn';
+}
+else {
+  season = '❄️ Winter';
+}
+
+
+    // =================================================
+    // DRAW EARTH
+    // =================================================
+
+
+const sunAngle =
+  Math.atan2(
+    sunY - earthY,
+    sunX - earthX
+  );
+
+this.drawEarth(
+  ctx,
+  earthX,
+  earthY,
+  120,
+  physics.earthRotation,
+  sunAngle,
+  physics.earthOrbit
+);
+
+    // =================================================
+    // MOON ORBIT
+    // =================================================
+
+    const moonOrbitRadius = 190;   // how far it looks like the Moon orbit from the Earth
+
+    ctx.beginPath();
+
+    ctx.strokeStyle =
+      'rgba(255,255,255,0.06)';
+
+    ctx.lineWidth = 1;
+
+    ctx.arc(
+      earthX,
+      earthY,
+      moonOrbitRadius,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+    // =================================================
+    // MOON POSITION
+    // =================================================
+
+    const moonOrbitTilt =
+      5 * Math.PI / 180;
+
+    const moonX =
+      earthX +
+      Math.cos(
+        physics.moonOrbit
+      ) * moonOrbitRadius;
+
+    const moonY =
+      earthY +
+      Math.sin(
+        physics.moonOrbit
+      ) *
+      moonOrbitRadius *
+      Math.cos(moonOrbitTilt);
+
+    // =================================================
+    // DRAW MOON
+    // =================================================
+
+const moonSunAngle =
+  Math.atan2(
+    sunY - moonY,
+    sunX - moonX
+  );
+
+const phaseAngle =
+(
+  physics.moonOrbit
+  - physics.earthOrbit
+  + Math.PI * 2
+)
+%
+(Math.PI * 2);
+
+const moonPhaseAngle =
+  physics.moonOrbit
+  - physics.earthOrbit;
+
+this.drawMoon(
+  ctx,
+  moonX,
+  moonY,
+  28,
+  moonSunAngle,
+  phaseAngle
+);
+
+    // =================================================
+    // LABELS
+    // =================================================
+
+    ctx.fillStyle = 'white';
+
+    ctx.font = '20px Arial';
+
+    ctx.fillText(
+      'Earth',
+      earthX - 28,
+      earthY + 130
+    );
+
+
+ctx.fillText(
+  season,
+  earthX + 120,
+  earthY
+);
+
+
+    ctx.fillText(
+      'Moon',
+      moonX - 22,
+      moonY + 50
+    );
+
+    // =================================================
+    // RESTORE
+    // =================================================
+
+    ctx.restore();
+  }
+
+  // ===================================================
+  // EARTH
+  // ===================================================
+
+drawEarth(
+  ctx,
+  x,
+  y,
+  r,
+  rotation,
+  sunAngle,
+  earthOrbit
+) {
+
+  ctx.save();
+
+  ctx.translate(x, y);
+
+  const axialTilt =
+    -23.44 * Math.PI / 180;
+
+  // ==========================================
+  // AXIS
+  // ==========================================
+
+  ctx.save();
+
+  ctx.rotate(axialTilt);
+
+  ctx.strokeStyle =
+    'rgba(255,255,255,0.9)';
+
+  ctx.lineWidth = 3;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    0,
+    -r - 25
+  );
+
+  ctx.lineTo(
+    0,
+    r + 25
+  );
+
+  ctx.stroke();
+
+  ctx.restore();
+
+  // ==========================================
+  // ATMOSPHERE
+  // ==========================================
+
+  const glow =
+    ctx.createRadialGradient(
+      0,
+      0,
+      r,
+      0,
+      0,
+      r + 20
+    );
+
+  glow.addColorStop(
+    0,
+    'rgba(0,0,0,0)'
+  );
+
+  glow.addColorStop(
+    1,
+    'rgba(100,180,255,0.45)'
+  );
+
+  ctx.fillStyle = glow;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r + 20,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  // ==========================================
+  // EARTH BODY
+  // ==========================================
+
+  const earthGradient =
+    ctx.createRadialGradient(
+      -35,
+      -35,
+      10,
+      0,
+      0,
+      r
+    );
+
+  earthGradient.addColorStop(
+    0,
+    '#6fe4ff'
+  );
+
+  earthGradient.addColorStop(
+    1,
+    '#003a6d'
+  );
+
+  ctx.fillStyle =
+    earthGradient;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  // ==========================================
+  // EARTH GRID
+  // ==========================================
+
+  ctx.save();
+
+  ctx.rotate(axialTilt);
+
+  // Latitude lines
+
+  ctx.strokeStyle =
+    'rgba(80,180,255,0.45)';
+
+  ctx.lineWidth = 1.5;
+
+  for (
+    let lat = -60;
+    lat <= 60;
+    lat += 30
+  ) {
+
+    const yPos =
+      Math.sin(
+        lat * Math.PI / 180
+      ) * r;
+
+    const rx =
+      Math.cos(
+        lat * Math.PI / 180
+      ) * r;
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+      0,
+      yPos,
+      rx,
+      rx * 0.22,
+      0,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+  }
+
+  // Equator
+
+  ctx.strokeStyle =
+    'rgba(255,220,80,0.95)';
+
+  ctx.lineWidth = 3;
+
+  ctx.beginPath();
+
+  ctx.ellipse(
+    0,
+    0,
+    r,
+    r * 0.22,
+    0,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+  // Prime meridian
+
+  ctx.strokeStyle =
+    'rgba(100,255,120,0.95)';
+
+  ctx.lineWidth = 3;
+
+  const meridianX =
+    Math.sin(rotation)
+    * r * 0.85;
+
+  const meridianScale =
+    Math.abs(
+      Math.cos(rotation)
+    );
+
+  ctx.beginPath();
+
+  ctx.ellipse(
+    meridianX,
+    0,
+    r * 0.08,
+    r * meridianScale,
+    0,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+  ctx.restore();
+
+  // ==========================================
+  // SEASONAL SUNLIGHT MODEL
+  // ==========================================
+
+  const declination =
+    Math.sin(earthOrbit)
+    * 23.44
+    * Math.PI / 180;
+
+  ctx.save();
+
+  ctx.rotate(
+    sunAngle + declination
+  );
+
+  const shadow =
+    ctx.createLinearGradient(
+      -r,
+      0,
+      r,
+      0
+    );
+
+  shadow.addColorStop(
+    0,
+    'rgba(0,0,0,0.92)'
+  );
+
+  shadow.addColorStop(
+    0.45,
+    'rgba(0,0,0,0.10)'
+  );
+
+  shadow.addColorStop(
+    1,
+    'rgba(0,0,0,0)'
+  );
+
+  ctx.fillStyle =
+    shadow;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  ctx.restore();
+
+  // ==========================================
+  // SUBSOLAR POINT MARKER
+  // ==========================================
+
+  ctx.save();
+
+  ctx.rotate(axialTilt);
+
+  const subsolarY =
+    -Math.sin(declination)
+    * r * 0.85;
+
+  ctx.fillStyle =
+    'rgba(255,255,120,0.95)';
+
+  ctx.beginPath();
+
+  ctx.arc(
+    r * 0.82,
+    subsolarY,
+    4,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  ctx.restore();
+
+  ctx.restore();
+}
+
+  // ===================================================
+  // MOON
+  // ===================================================
+
+
+
+drawMoon(
+  ctx,
+  x,
+  y,
+  r,
+  sunAngle,
+  phaseAngle
+) {
+
+  ctx.save();
+
+  ctx.translate(x, y);
+
+  // -------------------------
+  // Base moon
+  // -------------------------
+
+  ctx.fillStyle = '#cfcfcf';
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+  // -------------------------
+  // Craters
+  // -------------------------
+
+  ctx.fillStyle =
+    'rgba(0,0,0,0.15)';
+
+  for (let i = 0; i < 6; i++) {
+
+    const a =
+      i * Math.PI * 2 / 6;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      Math.cos(a) * 12,
+      Math.sin(a) * 12,
+      3,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+  }
+
+  // -------------------------
+  // Real phase
+  // -------------------------
+
+// -------------------------
+// REAL MOON PHASE
+// -------------------------
+
+ctx.save();
+
+ctx.rotate(sunAngle);
+
+// phaseAngle:
+// 0      = New Moon
+// π/2    = First Quarter
+// π      = Full Moon
+
+const k =
+  (1 - Math.cos(phaseAngle)) / 2;
+
+// Draw night hemisphere
+
+ctx.fillStyle =
+  'rgba(0,0,0,0.92)';
+
+ctx.beginPath();
+
+ctx.arc(
+  0,
+  0,
+  r,
+  0,
+  Math.PI * 2
+);
+
+ctx.fill();
+
+// Draw illuminated portion
+
+ctx.save();
+
+ctx.beginPath();
+
+ctx.arc(
+  0,
+  0,
+  r,
+  0,
+  Math.PI * 2
+);
+
+ctx.clip();
+
+ctx.fillStyle =
+  '#d9d9d9';
+
+const illuminatedWidth =
+  r * 2 * k;
+
+ctx.beginPath();
+
+ctx.ellipse(
+  r - illuminatedWidth,
+  0,
+  illuminatedWidth,
+  r,
+  0,
+  0,
+  Math.PI * 2
+);
+
+ctx.fill();
+
+ctx.restore();
+
+ctx.restore();
+
+  // -------------------------
+  // Rim glow
+  // -------------------------
+
+  ctx.strokeStyle =
+    'rgba(255,255,255,0.35)';
+
+  ctx.lineWidth = 1;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+
+
+
+}

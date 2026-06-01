@@ -1,0 +1,73 @@
+html,
+body {
+  margin: 0;
+  overflow: hidden;
+  background: black;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+#ui {
+  position: fixed;
+
+  top: 15px;
+  left: 15px;
+
+  z-index: 20;
+
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  align-items: center;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  background: rgba(0,0,0,0.45);
+
+  backdrop-filter: blur(10px);
+}
+
+button {
+
+  background: #1e2f4d;
+
+  border: none;
+
+  color: white;
+
+  padding: 10px 16px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+button:hover {
+  background: #35568b;
+}
+
+input[type="range"] {
+  width: 150px;
+}
+
+#timeDisplay {
+  min-width: 220px;
+  line-height: 1.5;
+}
+
+
+label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}

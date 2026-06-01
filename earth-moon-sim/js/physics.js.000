@@ -1,0 +1,36 @@
+export class Physics {
+
+  constructor() {
+
+    this.simHours = 0;
+
+    this.speed = 48;
+
+    this.paused = false;
+
+    this.earthRotation = 0;
+
+    this.earthOrbit = 0;
+
+    this.moonOrbit = 0;
+  }
+
+  update(delta) {
+
+    if (this.paused) return;
+
+    this.simHours += delta * this.speed;
+
+    this.earthRotation =
+      (this.simHours / 24)
+      * Math.PI * 2;
+
+    this.earthOrbit =
+      (this.simHours / (365.25 * 24))
+      * Math.PI * 2;
+
+    this.moonOrbit =
+      (this.simHours / (27.3 * 24))
+      * Math.PI * 2;
+  }
+}
